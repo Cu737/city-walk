@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CityWalk</string>
+    <string name="backgroud">BACKGROUD</string>
+    <string name="dairy">DAIRY</string>
+    <string name="all">ALL</string>
+    <string name="add">ADD</string>
+    <string name="analyse">ANALYSE</string>
+    <string name="setting">SETTING</string>
 </resources>
