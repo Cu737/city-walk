@@ -51,6 +51,12 @@
                    android:layout_marginStart="100dp"
                    android:layout_marginBottom="30dp" android:contentDescription="SUN"/>
     </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="bottom">
+        <ImageView android:layout_width="200dp" android:layout_height="55dp"
+                   android:src="@drawable/main_menu_text4"
+                   android:layout_marginStart="120dp"
+                   android:layout_marginBottom="50dp"/>
+    </LinearLayout>
 
 </FrameLayout>
 
