@@ -40,13 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         analyse_btn.setOnClickListener(this);
         setting_btn.setOnClickListener(this);
 
-        //隐藏标题栏
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
 
-        //设置顶部状态栏为透明
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
     }
 
     /**
