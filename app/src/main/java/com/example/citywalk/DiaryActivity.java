@@ -1,8 +1,10 @@
 package com.example.citywalk;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageButton;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -25,6 +27,14 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
         diary_btn.setOnClickListener(this);
         analyse_btn.setOnClickListener(this);
         setting_btn.setOnClickListener(this);
+
+        //隐藏标题栏
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
+        //设置顶部状态栏为透明
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
     }
 
     @Override
