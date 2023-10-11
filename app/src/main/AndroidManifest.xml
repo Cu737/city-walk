@@ -19,6 +19,27 @@
             android:theme="@style/Theme.CityWalk"
             tools:targetApi="31">
         <activity
+                android:name=".AllActivty"
+                android:exported="false">
+            <meta-data
+                    android:name="android.app.lib_name"
+                    android:value=""/>
+        </activity>
+        <activity
+                android:name=".AnalyseActivity"
+                android:exported="false">
+            <meta-data
+                    android:name="android.app.lib_name"
+                    android:value=""/>
+        </activity>
+        <activity
+                android:name=".SettingActivity"
+                android:exported="false">
+            <meta-data
+                    android:name="android.app.lib_name"
+                    android:value=""/>
+        </activity>
+        <activity
                 android:name=".DiaryActivity"
                 android:exported="false">
             <meta-data

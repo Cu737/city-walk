@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageButton;
-import com.example.citywalk.DiaryActivity;
-import com.example.citywalk.MainActivity;
-import com.example.citywalk.R;
+import com.example.citywalk.*;
 
 public class ButtonChoose {
     public static void initButton(Activity activity)
@@ -35,16 +33,35 @@ public class ButtonChoose {
         }
         else if(btn_id == R.id.add_btn)
         {
-            Intent diary_intent = new Intent(activity, MainActivity.class);
-            diary_intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            activity.startActivity(diary_intent);
+            Intent intent = new Intent(activity, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            activity.startActivity(intent);
         }
         else if (btn_id == R.id.dairy_btn)
         {
-            Intent diary_intent = new Intent(activity, DiaryActivity.class);
-            diary_intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            activity.startActivity(diary_intent);
+            Intent intent = new Intent(activity, DiaryActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            activity.startActivity(intent);
         }
+        else if (btn_id == R.id.setting_btn)
+        {
+            Intent intent = new Intent(activity, SettingActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            activity.startActivity(intent);
+        }
+        else if (btn_id == R.id.analyse_btn)
+        {
+            Intent intent = new Intent(activity, AnalyseActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            activity.startActivity(intent);
+        }
+        else if (btn_id == R.id.all_btn)
+        {
+            Intent intent = new Intent(activity, AllActivty.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            activity.startActivity(intent);
+        }
+
     }
 
 
