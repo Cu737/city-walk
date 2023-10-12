@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
@@ -21,8 +23,7 @@ import com.tencent.tencentmap.mapsdk.maps.TencentMap;
 import com.tencent.tencentmap.mapsdk.maps.TencentMapInitializer;
 import com.tencent.tencentmap.mapsdk.maps.TextureMapView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-public class MainActivity extends AppCompatActivity  implements LocationSource ,TencentLocationListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,LocationSource ,TencentLocationListener{
     private TextureMapView mapView;
     private TencentMap tencentMap;
     private TencentLocationManager locationManager;
