@@ -1,6 +1,8 @@
 package com.example.citywalk;
 
 import android.location.Location;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -14,7 +16,12 @@ import com.tencent.tencentmap.mapsdk.maps.*;
 import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
 import com.tencent.tencentmap.mapsdk.maps.model.TencentMapGestureListener;
+import com.example.citywalk.util.ButtonChoose;
+import com.tencent.tencentmap.mapsdk.maps.TencentMap;
+import com.tencent.tencentmap.mapsdk.maps.TencentMapInitializer;
+import com.tencent.tencentmap.mapsdk.maps.TextureMapView;
 
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 public class MainActivity extends AppCompatActivity  implements LocationSource ,TencentLocationListener {
     private TextureMapView mapView;
     private TencentMap tencentMap;
@@ -34,6 +41,16 @@ public class MainActivity extends AppCompatActivity  implements LocationSource ,
         locationRequest.setInterval(3000);
         mapView = findViewById(R.id.mapView);
         tencentMap = mapView.getMap();
+
+        ButtonChoose.initButton(this);
+
+        //隐藏标题栏
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
+        //设置顶部状态栏为透明
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         tencentMap.setLocationSource(this);
         //设置当前位置可见
         tencentMap.setMyLocationEnabled(true);
@@ -83,6 +100,14 @@ public class MainActivity extends AppCompatActivity  implements LocationSource ,
         mapView.onRestart();
     }
 
+
+    @Override
+    public void onClick(View view) {
+        ButtonChoose.chooseButton(this,view);
+
+
+
+    }
     private void initLocation(){
         //用于访问腾讯定位服务的类, 周期性向客户端提供位置更新
         locationManager = TencentLocationManager.getInstance(this);

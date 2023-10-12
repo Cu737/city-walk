@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!--检查网络可用性-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!-- 访问WiFi状态 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--需要外部存储写权限用于保存地图缓存-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!--获取 device id 辨别设备-->
+
+    <uses-permission android:name="android.permission.INTERNET"/> <!-- 检查网络可用性 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- 访问WiFi状态 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/> <!-- 需要外部存储写权限用于保存地图缓存 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 获取 device id 辨别设备 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!-- 通过GPS得到精确位置 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
@@ -44,6 +41,34 @@
             android:theme="@style/Theme.CityWalk"
             tools:targetApi="31">
         <activity
+                android:name=".AllActivty"
+                android:exported="false">
+            <meta-data
+                    android:name="android.app.lib_name"
+                    android:value=""/>
+        </activity>
+        <activity
+                android:name=".AnalyseActivity"
+                android:exported="false">
+            <meta-data
+                    android:name="android.app.lib_name"
+                    android:value=""/>
+        </activity>
+        <activity
+                android:name=".SettingActivity"
+                android:exported="false">
+            <meta-data
+                    android:name="android.app.lib_name"
+                    android:value=""/>
+        </activity>
+        <activity
+                android:name=".DiaryActivity"
+                android:exported="false">
+            <meta-data
+                    android:name="android.app.lib_name"
+                    android:value=""/>
+        </activity>
+        <activity
                 android:name=".MainActivity"
                 android:exported="true">
             <intent-filter>
@@ -57,6 +82,9 @@
                     android:value=""/>
         </activity>
 
-        <meta-data android:name="TencentMapSDK" android:value="YJGBZ-HDMLA-ZFSKD-CWG6G-P57Y5-WGFEU" />
+        <meta-data
+                android:name="TencentMapSDK"
+                android:value="YJGBZ-HDMLA-ZFSKD-CWG6G-P57Y5-WGFEU"/>
     </application>
+
 </manifest>
