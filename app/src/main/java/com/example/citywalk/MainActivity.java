@@ -1,8 +1,13 @@
 package com.example.citywalk;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 
 import android.graphics.Color;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -10,6 +15,8 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
@@ -23,18 +30,34 @@ import com.tencent.tencentmap.mapsdk.maps.TencentMap;
 import com.tencent.tencentmap.mapsdk.maps.TencentMapInitializer;
 import com.tencent.tencentmap.mapsdk.maps.TextureMapView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,LocationSource ,TencentLocationListener{
+import static androidx.constraintlayout.motion.widget.Debug.getLocation;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationSource, TencentLocationListener {
     private TextureMapView mapView;
     private TencentMap tencentMap;
     private TencentLocationManager locationManager;
     private TencentLocationRequest locationRequest;
     private OnLocationChangedListener locationChangedListener;
+    private Location mylocation;
+    private static final int REQUEST_LOCATION_PERMISSION = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TencentMapInitializer.setAgreePrivacy(true);
         TencentLocationManager.setUserAgreePrivacy(true);
         setContentView(R.layout.activity_main);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // 权限未被授予
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_LOCATION_PERMISSION);
+        } else {
+            System.out.println("当前已授权");
+        }
+        mylocation = getLocation(this);
+        System.out.println(mylocation.getLatitude());
+        System.out.println(mylocation.getAltitude());
         locationManager = TencentLocationManager.getInstance(this);
         //创建定位请求
         locationRequest = TencentLocationRequest.create();
@@ -55,13 +78,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tencentMap.setLocationSource(this);
         //设置当前位置可见
         tencentMap.setMyLocationEnabled(true);
-        CameraUpdate cameraSigma = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(39.026403,117.712015), //新的中心点坐标  x为latitude，y为longitude
-                        17,  //新的缩放级别
-                        0, //俯仰角 0~45° (垂直地图时为0)
-                        0)); //偏航角 0~360° (正北方为0)
+        CameraUpdate cameraSigma = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(39.026403, 117.712015), //新的中心点坐标  x为latitude，y为longitude
+                17,  //新的缩放级别
+                0, //俯仰角 0~45° (垂直地图时为0)
+                0)); //偏航角 0~360° (正北方为0)
 //移动地图
         tencentMap.moveCamera(cameraSigma);
     }
+
     /**
      * mapview的生命周期管理
      */
@@ -71,6 +95,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mapView.onStart();
     }
 
+    public Location getLocation(Context context) {
+        LocationManager locMan = (LocationManager) context
+                .getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            System.out.println("无权限");
+        }
+        Location location = locMan.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (location == null) {
+            location = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+        return location;
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -179,4 +222,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         locationRequest = null;
         locationChangedListener=null;
     }
+
 }
