@@ -22,9 +22,7 @@ import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
 import com.tencent.map.geolocation.TencentLocationRequest;
 import com.tencent.tencentmap.mapsdk.maps.*;
-import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;
-import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
-import com.tencent.tencentmap.mapsdk.maps.model.TencentMapGestureListener;
+import com.tencent.tencentmap.mapsdk.maps.model.*;
 import com.example.citywalk.util.ButtonChoose;
 import com.tencent.tencentmap.mapsdk.maps.TencentMap;
 import com.tencent.tencentmap.mapsdk.maps.TencentMapInitializer;
@@ -55,17 +53,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             System.out.println("当前已授权");
         }
-        mylocation = getLocation(this);
-        System.out.println(mylocation.getLatitude());
-        System.out.println(mylocation.getAltitude());
+        mapView = findViewById(R.id.mapView);
+        tencentMap = mapView.getMap();
+//        mylocation = getLocation(this);
+//        System.out.println(mylocation.getLatitude());
+//        System.out.println(mylocation.getAltitude());
         locationManager = TencentLocationManager.getInstance(this);
         //创建定位请求
         locationRequest = TencentLocationRequest.create();
         //设置定位周期（位置监听器回调周期）为3s
         locationRequest.setInterval(3000);
-        mapView = findViewById(R.id.mapView);
-        tencentMap = mapView.getMap();
 
+        tencentMap.setLocationSource(this);
+        //设置当前位置可见
+        tencentMap.setMyLocationEnabled(true);
         ButtonChoose.initButton(this);
 
         //隐藏标题栏
@@ -75,9 +76,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //设置顶部状态栏为透明
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        tencentMap.setLocationSource(this);
-        //设置当前位置可见
-        tencentMap.setMyLocationEnabled(true);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         CameraUpdate cameraSigma = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(39.026403, 117.712015), //新的中心点坐标  x为latitude，y为longitude
                 17,  //新的缩放级别
                 0, //俯仰角 0~45° (垂直地图时为0)
@@ -95,25 +98,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mapView.onStart();
     }
 
-    public Location getLocation(Context context) {
-        LocationManager locMan = (LocationManager) context
-                .getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            System.out.println("无权限");
-        }
-        Location location = locMan.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (location == null) {
-            location = locMan.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        }
-        return location;
-    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -168,18 +152,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //其中 locationChangeListener 为 LocationSource.active 返回给用户的位置监听器
         //用户通过这个监听器就可以设置地图的定位点位置
         if(i == TencentLocation.ERROR_OK && locationChangedListener != null){
+            System.out.println("定位成功");
+            System.out.println(tencentLocation.getLatitude());
+            System.out.println(tencentLocation.getAltitude());
             Location location = new Location(tencentLocation.getProvider());
             //设置经纬度
             location.setLatitude(tencentLocation.getLatitude());
             location.setLongitude(tencentLocation.getLongitude());
             //设置精度，这个值会被设置为定位点上表示精度的圆形半径
             location.setAccuracy(tencentLocation.getAccuracy());
+
             //设置定位标的旋转角度，注意 tencentLocation.getBearing() 只有在 gps 时才有可能获取
             //location.setBearing((float) tencentLocation.getBearing());
             //设置定位标的旋转角度，注意 tencentLocation.getDirection() 返回的方向，仅来自传感器方向，如果是gps，则直接获取gps方向
             location.setBearing((float) tencentLocation.getDirection());
             //将位置信息返回给地图
             locationChangedListener.onLocationChanged(location);
+        }
+        else {
+            System.out.println(i);
+            System.out.println(TencentLocation.ERROR_OK);
+            System.out.println("定位失败");
         }
     }
 
