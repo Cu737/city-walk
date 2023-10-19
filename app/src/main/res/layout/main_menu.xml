@@ -24,24 +24,29 @@
                      android:id="@+id/dairy_btn"
                      android:layout_height="60dp" android:layout_width="60dp"
                      android:layout_marginTop="118dp"
-                     android:layout_marginStart="10dp" android:contentDescription="@string/dairy"/>
+                     android:layout_marginStart="10dp" android:contentDescription="@string/dairy"
+        android:src="@drawable/main_menu_button_change_small"/>
         <ImageButton android:background="@drawable/main_menu_pic5" android:layout_height="60dp"
                      android:id="@+id/all_btn"
                      android:layout_width="60dp"
                      android:layout_marginTop="58dp"
-                     android:layout_marginStart="10dp" android:contentDescription="@string/all"/>
+                     android:layout_marginStart="10dp" android:contentDescription="@string/all"
+                     android:src="@drawable/main_menu_button_change_small"/>
         <ImageButton android:background="@drawable/main_menu_pic1" android:layout_height="96dp"
                      android:id="@+id/add_btn"
                      android:layout_width="96dp"
+                     android:src="@drawable/main_menu_button_change_big"
                      android:layout_marginStart="25dp" android:contentDescription="@string/add"/>
         <ImageButton android:background="@drawable/main_menu_pic2" android:layout_height="60dp"
                      android:id="@+id/analyse_btn"
                      android:layout_width="60dp"
                      android:layout_marginTop="58dp"
+                     android:src="@drawable/main_menu_button_change_small"
                      android:layout_marginStart="25dp" android:contentDescription="@string/analyse"/>
         <ImageButton android:background="@drawable/main_menu_pic3" android:layout_height="60dp"
                      android:id="@+id/setting_btn"
                      android:layout_width="60dp"
+                     android:src="@drawable/main_menu_button_change_small"
                      android:layout_marginTop="118dp"
                      android:layout_marginStart="1dp" android:contentDescription="@string/setting"/>
 
