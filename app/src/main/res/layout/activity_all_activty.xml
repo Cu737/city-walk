@@ -7,7 +7,6 @@
         tools:context=".SettingActivity">
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
         <include layout="@layout/main_menu_all"
-                 android:layout_marginBottom="32dp"
                  android:layout_width="410dp"
                  android:layout_gravity="center"
                  android:layout_height="match_parent"/>
