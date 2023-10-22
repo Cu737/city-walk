@@ -6,4 +6,5 @@
     <string name="add">ADD</string>
     <string name="analyse">ANALYSE</string>
     <string name="setting">SETTING</string>
+    <string name="creat_log">创建日志</string>
 </resources>
