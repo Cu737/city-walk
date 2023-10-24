@@ -1,6 +1,5 @@
 package com.example.citywalk;
 
-
 import android.graphics.Color;
 import android.view.View;
 import androidx.appcompat.app.ActionBar;
@@ -8,12 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.citywalk.util.ButtonChoose;
 
-public class DiaryActivity extends AppCompatActivity implements View.OnClickListener{
+public class AllActivty extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diary);
+        setContentView(R.layout.activity_all_activty);
 
         ButtonChoose.initButton(this);
 
@@ -28,8 +27,6 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        //调用关于各个按钮的监听
         ButtonChoose.chooseButton(this,view);
-
     }
 }
