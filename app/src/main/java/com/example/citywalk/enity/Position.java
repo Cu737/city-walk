@@ -1,7 +1,7 @@
 package com.example.citywalk.enity;
 
 public class Position {
-    public int ID;
+    public int ID = 0;
     public double latitude;
     public  double longitude;
 
@@ -10,8 +10,7 @@ public class Position {
 
     }
 
-    public Position(int ID, double latitude, double longitude) {
-        this.ID = ID;
+    public Position(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }

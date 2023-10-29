@@ -2,9 +2,13 @@ package com.example.citywalk.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.example.citywalk.enity.Position;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "user.db";
@@ -29,7 +33,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String sql = "create table postion"+"(" +
+        String sql = "create table position"+"(" +
                 "ID INTEGER PRIMARY KEY," +
                 "    latitude double NOT NULL," +
                 "longitude double NOT NULL," +
@@ -80,13 +84,29 @@ public class UserDBHelper extends SQLiteOpenHelper {
     }
 
     //增加
-    public void insert(Position position)
+    public void insertPosition(Position position)
     {
         ContentValues values = new ContentValues();
         values.put("latitude",position.latitude);
         values.put("longitude",position.longitude);
 
         wRDB.insert("position",null,values);
+    }
+
+    //取所有
+    public List<Position> queryAllPosition()
+    {
+        List<Position> l= new ArrayList<>();
+        Cursor cursor = mRDB.query("position",null,null,null,null,null,null);
+        while (cursor.moveToNext())
+        {
+            Position p= new Position();
+            p.ID = cursor.getInt(0);
+            p.latitude = cursor.getDouble(1);
+            p.longitude = cursor.getDouble(2);
+            l.add(p);
+        }
+        return l;
     }
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
