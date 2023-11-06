@@ -30,6 +30,8 @@ import com.tencent.tencentmap.mapsdk.maps.TextureMapView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static androidx.constraintlayout.motion.widget.Debug.getLocation;
 
@@ -42,11 +44,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Location mylocation;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private List<LatLng> latLngs = new ArrayList<LatLng>();
+    private static double lat;
+    private static double lgt;
+    private static double old_lat = -1.0000;
+    private static double old_lgt = -1.0000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TencentMapInitializer.setAgreePrivacy(true);
         TencentLocationManager.setUserAgreePrivacy(true);
+
         setContentView(R.layout.activity_main);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -68,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tencentMap.setLocationSource(this);
         //设置当前位置可见
         tencentMap.setMyLocationEnabled(true);
+
         ButtonChoose.initButton(this);
 
         //隐藏标题栏
@@ -82,30 +90,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        CameraUpdate cameraSigma = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(39.026403, 117.712015), //新的中心点坐标  x为latitude，y为longitude
-                17,  //新的缩放级别
-                0, //俯仰角 0~45° (垂直地图时为0)
-                0)); //偏航角 0~360° (正北方为0)
-//移动地图
-        tencentMap.moveCamera(cameraSigma);
-// 构造 PolylineOpitons
-        PolylineOptions polylineOptions = new PolylineOptions()
-                .addAll(latLngs)
-                // 折线设置圆形线头
-                .lineCap(true)
-                // 纹理颜色
-                .color(PolylineOptions.Colors.GRAYBLUE)
-                .width(25);
-
-// 绘制折线
-        Polyline polyline = tencentMap.addPolyline(polylineOptions);
-
-// 将地图视野移动到折线所在区域(指定西南坐标和东北坐标)，设置四周填充的像素
-        tencentMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
-                new LatLngBounds.Builder()
-                        .include(latLngs).build(),
-                100));
-
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("执行成功");
+               draw_road();
+            }
+        }, 0, 5000);
     }
 
     /**
@@ -177,24 +169,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //用户通过这个监听器就可以设置地图的定位点位置
         if(i == TencentLocation.ERROR_OK && locationChangedListener != null){
             System.out.println("定位成功");
-            double lat = tencentLocation.getLatitude();
-            double lgt = tencentLocation.getLongitude();
+            lat = tencentLocation.getLatitude();
+            lgt = tencentLocation.getLongitude();
             System.out.println(lat);
             System.out.println(lgt);
-            getLatlons(lat,lgt);
-//            Location location = new Location(tencentLocation.getProvider());
-//            //设置经纬度
-//            location.setLatitude(tencentLocation.getLatitude());
-//            location.setLongitude(tencentLocation.getLongitude());
-//            //设置精度，这个值会被设置为定位点上表示精度的圆形半径
-//            location.setAccuracy(tencentLocation.getAccuracy());
-//
-//            //设置定位标的旋转角度，注意 tencentLocation.getBearing() 只有在 gps 时才有可能获取
-//            //location.setBearing((float) tencentLocation.getBearing());
-//            //设置定位标的旋转角度，注意 tencentLocation.getDirection() 返回的方向，仅来自传感器方向，如果是gps，则直接获取gps方向
-//            location.setBearing((float) tencentLocation.getDirection());
-//            //将位置信息返回给地图
-//            locationChangedListener.onLocationChanged(location);
+            if(old_lgt == -1.0000)
+            {
+                old_lgt = lgt;
+                old_lat = lat;
+                latLngs.add(new LatLng(lat,lgt));
+            }
+            Location location = new Location(tencentLocation.getProvider());
+            //设置经纬度
+            location.setLatitude(tencentLocation.getLatitude());
+            location.setLongitude(tencentLocation.getLongitude());
+            //设置精度，这个值会被设置为定位点上表示精度的圆形半径
+            location.setAccuracy(tencentLocation.getAccuracy());
+
+            //设置定位标的旋转角度，注意 tencentLocation.getBearing() 只有在 gps 时才有可能获取
+            //location.setBearing((float) tencentLocation.getBearing());
+            //设置定位标的旋转角度，注意 tencentLocation.getDirection() 返回的方向，仅来自传感器方向，如果是gps，则直接获取gps方向
+            location.setBearing((float) tencentLocation.getDirection());
+            //将位置信息返回给地图
+            locationChangedListener.onLocationChanged(location);
         }
         else {
             System.out.println(i);
@@ -233,7 +230,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+    public void draw_road(){
+        if(old_lgt == -1.0000)
+        {
+            System.out.println("初始化中");
+        }
+        else if(old_lgt!=lgt||old_lat!=lat)
+        {
+            old_lat = lat;
+            old_lgt = lgt;
+            System.out.println("位置更新");
+            latLngs.add(new LatLng(lat,lgt));
+// 构造 PolylineOpitons
+            PolylineOptions polylineOptions = new PolylineOptions()
+                    .addAll(latLngs)
+                    // 折线设置圆形线头
+                    .lineCap(true)
+                    // 折线的颜色为绿色
+                    .color(0xff00ff00)
+                    // 折线宽度为25像素
+                    .width(25)
+                    // 还可以添加描边颜色
+                    .borderColor(0xffff0000)
+                    // 描边颜色的宽度，线宽还是 25 像素，不过填充的部分宽度为 `width` - 2 * `borderWidth`
+                    .borderWidth(5);
 
+// 绘制折线
+            Polyline polyline = tencentMap.addPolyline(polylineOptions);
+//        CameraUpdate cameraSigma = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(39.026403, 117.712015), //新的中心点坐标  x为latitude，y为longitude
+//                17,  //新的缩放级别
+//                0, //俯仰角 0~45° (垂直地图时为0)
+//                0)); //偏航角 0~360° (正北方为0)
+////移动地图
+//        tencentMap.moveCamera(cameraSigma);
+// 构造 PolylineOpitons
+//        PolylineOptions polylineOptions = new PolylineOptions()
+//                .addAll(latLngs)
+//                // 折线设置圆形线头
+//                .lineCap(true)
+//                // 纹理颜色
+//                .color(PolylineOptions.Colors.GRAYBLUE)
+//                .width(25);
+//
+//// 绘制折线
+//        Polyline polyline = tencentMap.addPolyline(polylineOptions);
+
+// 将地图视野移动到折线所在区域(指定西南坐标和东北坐标)，设置四周填充的像素
+            tencentMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
+                    new LatLngBounds.Builder()
+                            .include(latLngs).build(),
+                    100));
+        }
+        else {
+            System.out.println("位置不变");
+        }
+
+
+    }
     @Override
     public void deactivate() {
         //当不需要展示定位点时，需要停止定位并释放相关资源
