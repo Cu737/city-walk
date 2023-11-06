@@ -13,6 +13,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import android.widget.ImageButton;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -38,6 +39,7 @@ import static androidx.constraintlayout.motion.widget.Debug.getLocation;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationSource, TencentLocationListener {
     private TextureMapView mapView;
     private TencentMap tencentMap;
+
     private TencentLocationManager locationManager;
     private TencentLocationRequest locationRequest;
     private OnLocationChangedListener locationChangedListener;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static double lgt;
     private static double old_lat = -1.0000;
     private static double old_lgt = -1.0000;
+    private View add_dairy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //设置顶部状态栏为透明
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -98,6 +102,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                draw_road();
             }
         }, 0, 5000);
+        add_dairy= findViewById(R.id.add_dairy);
+
+        //设置增加日记界面的弹出与收起
+        add_dairy.setVisibility(View.GONE);
+        ImageButton exit_dairy_button = findViewById(R.id.dairy_exit);
+        exit_dairy_button.setOnClickListener(this);
     }
 
     /**
@@ -143,6 +153,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         ButtonChoose.chooseButton(this,view);
+        if(view.getId() == R.id.dairy_exit)
+        {
+            add_dairy.setVisibility(View.GONE);
+
+        }
+
 
 
 
