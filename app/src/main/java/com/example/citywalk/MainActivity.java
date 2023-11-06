@@ -28,6 +28,9 @@ import com.tencent.tencentmap.mapsdk.maps.TencentMap;
 import com.tencent.tencentmap.mapsdk.maps.TencentMapInitializer;
 import com.tencent.tencentmap.mapsdk.maps.TextureMapView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static androidx.constraintlayout.motion.widget.Debug.getLocation;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationSource, TencentLocationListener {
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private OnLocationChangedListener locationChangedListener;
     private Location mylocation;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
+    private List<LatLng> latLngs = new ArrayList<LatLng>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,9 +59,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         mapView = findViewById(R.id.mapView);
         tencentMap = mapView.getMap();
-//        mylocation = getLocation(this);
-//        System.out.println(mylocation.getLatitude());
-//        System.out.println(mylocation.getAltitude());
         locationManager = TencentLocationManager.getInstance(this);
         //创建定位请求
         locationRequest = TencentLocationRequest.create();
@@ -87,6 +88,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 0)); //偏航角 0~360° (正北方为0)
 //移动地图
         tencentMap.moveCamera(cameraSigma);
+// 构造 PolylineOpitons
+        PolylineOptions polylineOptions = new PolylineOptions()
+                .addAll(latLngs)
+                // 折线设置圆形线头
+                .lineCap(true)
+                // 纹理颜色
+                .color(PolylineOptions.Colors.GRAYBLUE)
+                .width(25);
+
+// 绘制折线
+        Polyline polyline = tencentMap.addPolyline(polylineOptions);
+
+// 将地图视野移动到折线所在区域(指定西南坐标和东北坐标)，设置四周填充的像素
+        tencentMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
+                new LatLngBounds.Builder()
+                        .include(latLngs).build(),
+                100));
+
     }
 
     /**
@@ -136,6 +155,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+    private List<LatLng> getLatlons(double lat,double lgt){
+
+        latLngs.add(new LatLng(lat,lgt));
+        return latLngs;
+    }
     private void initLocation(){
         //用于访问腾讯定位服务的类, 周期性向客户端提供位置更新
         locationManager = TencentLocationManager.getInstance(this);
@@ -153,21 +177,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //用户通过这个监听器就可以设置地图的定位点位置
         if(i == TencentLocation.ERROR_OK && locationChangedListener != null){
             System.out.println("定位成功");
-            System.out.println(tencentLocation.getLatitude());
-            System.out.println(tencentLocation.getAltitude());
-            Location location = new Location(tencentLocation.getProvider());
-            //设置经纬度
-            location.setLatitude(tencentLocation.getLatitude());
-            location.setLongitude(tencentLocation.getLongitude());
-            //设置精度，这个值会被设置为定位点上表示精度的圆形半径
-            location.setAccuracy(tencentLocation.getAccuracy());
-
-            //设置定位标的旋转角度，注意 tencentLocation.getBearing() 只有在 gps 时才有可能获取
-            //location.setBearing((float) tencentLocation.getBearing());
-            //设置定位标的旋转角度，注意 tencentLocation.getDirection() 返回的方向，仅来自传感器方向，如果是gps，则直接获取gps方向
-            location.setBearing((float) tencentLocation.getDirection());
-            //将位置信息返回给地图
-            locationChangedListener.onLocationChanged(location);
+            double lat = tencentLocation.getLatitude();
+            double lgt = tencentLocation.getLongitude();
+            System.out.println(lat);
+            System.out.println(lgt);
+            getLatlons(lat,lgt);
+//            Location location = new Location(tencentLocation.getProvider());
+//            //设置经纬度
+//            location.setLatitude(tencentLocation.getLatitude());
+//            location.setLongitude(tencentLocation.getLongitude());
+//            //设置精度，这个值会被设置为定位点上表示精度的圆形半径
+//            location.setAccuracy(tencentLocation.getAccuracy());
+//
+//            //设置定位标的旋转角度，注意 tencentLocation.getBearing() 只有在 gps 时才有可能获取
+//            //location.setBearing((float) tencentLocation.getBearing());
+//            //设置定位标的旋转角度，注意 tencentLocation.getDirection() 返回的方向，仅来自传感器方向，如果是gps，则直接获取gps方向
+//            location.setBearing((float) tencentLocation.getDirection());
+//            //将位置信息返回给地图
+//            locationChangedListener.onLocationChanged(location);
         }
         else {
             System.out.println(i);
