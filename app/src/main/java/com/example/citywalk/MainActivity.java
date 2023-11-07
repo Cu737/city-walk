@@ -3,6 +3,7 @@ package com.example.citywalk;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.icu.text.Transliterator;
 import android.location.Location;
 
 import android.graphics.Color;
@@ -12,11 +13,15 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import com.example.citywalk.database.UserDBHelper;
+import com.example.citywalk.enity.Position;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
@@ -38,6 +43,9 @@ import static androidx.constraintlayout.motion.widget.Debug.getLocation;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationSource, TencentLocationListener {
     private TextureMapView mapView;
     private TencentMap tencentMap;
+
+    private View add_dairy;
+
     private TencentLocationManager locationManager;
     private TencentLocationRequest locationRequest;
     private OnLocationChangedListener locationChangedListener;
@@ -48,12 +56,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static double lgt;
     private static double old_lat = -1.0000;
     private static double old_lgt = -1.0000;
+    private static UserDBHelper db1 = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TencentMapInitializer.setAgreePrivacy(true);
         TencentLocationManager.setUserAgreePrivacy(true);
-
+        db1 = UserDBHelper.getInstance(this);
+        db1.openReadLink();
+        db1.openWriteLink();
+        List<Position> lat1= db1.queryAllPosition();
+        for (Position p1 : lat1) {
+            System.out.println(p1.latitude);
+            System.out.println(p1.longitude);
+            latLngs.add(new LatLng(p1.latitude,p1.latitude));
+        }
         setContentView(R.layout.activity_main);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -85,6 +102,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //设置顶部状态栏为透明
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        add_dairy= findViewById(R.id.add_dairy);
+
+        //设置增加日记界面的弹出与收起
+        add_dairy.setVisibility(View.GONE);
+        ImageButton exit_dairy_button = findViewById(R.id.dairy_exit);
+        exit_dairy_button.setOnClickListener(this);
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -143,6 +166,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         ButtonChoose.chooseButton(this,view);
+        if(view.getId() == R.id.dairy_exit)
+        {
+            add_dairy.setVisibility(View.GONE);
+
+        }
+
 
 
 
@@ -240,6 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             old_lat = lat;
             old_lgt = lgt;
             System.out.println("位置更新");
+            db1.insertPosition(new Position(lat,lgt));
             latLngs.add(new LatLng(lat,lgt));
 // 构造 PolylineOpitons
             PolylineOptions polylineOptions = new PolylineOptions()
