@@ -3,6 +3,7 @@ package com.example.citywalk;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.icu.text.Transliterator;
 import android.location.Location;
 
 import android.graphics.Color;
@@ -12,12 +13,16 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ImageButton;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import com.example.citywalk.database.UserDBHelper;
+import com.example.citywalk.enity.Position;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
@@ -40,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextureMapView mapView;
     private TencentMap tencentMap;
 
+    private View add_dairy;
+
     private TencentLocationManager locationManager;
     private TencentLocationRequest locationRequest;
     private OnLocationChangedListener locationChangedListener;
@@ -50,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static double lgt;
     private static double old_lat = -1.0000;
     private static double old_lgt = -1.0000;
+
+    private static UserDBHelper db1 = null;
+
     private View add_dairy;
 
 
@@ -60,7 +70,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         TencentMapInitializer.setAgreePrivacy(true);
         TencentLocationManager.setUserAgreePrivacy(true);
+        db1 = UserDBHelper.getInstance(this);
+        db1.openReadLink();
+        db1.openWriteLink();
+        List<Position> lat1= db1.queryAllPosition();
+        for (Position p1 : lat1) {
+            System.out.println(p1.latitude);
+            System.out.println(p1.longitude);
+            latLngs.add(new LatLng(p1.latitude,p1.latitude));
 
+        }
         setContentView(R.layout.activity_main);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -265,6 +284,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             old_lat = lat;
             old_lgt = lgt;
             System.out.println("位置更新");
+            db1.insertPosition(new Position(lat,lgt));
+            System.out.println("数据库插入成功");
             latLngs.add(new LatLng(lat,lgt));
 // 构造 PolylineOpitons
             PolylineOptions polylineOptions = new PolylineOptions()
@@ -272,13 +293,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // 折线设置圆形线头
                     .lineCap(true)
                     // 折线的颜色为绿色
-                    .color(0xff00ff00)
+                    .color(0x8014734B)
                     // 折线宽度为25像素
-                    .width(25)
+                    .width(10)
                     // 还可以添加描边颜色
-                    .borderColor(0xffff0000)
+                    .borderColor(0x7DD9E248)
                     // 描边颜色的宽度，线宽还是 25 像素，不过填充的部分宽度为 `width` - 2 * `borderWidth`
-                    .borderWidth(5);
+                    .borderWidth(2);
 
 // 绘制折线
             Polyline polyline = tencentMap.addPolyline(polylineOptions);
@@ -301,13 +322,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        Polyline polyline = tencentMap.addPolyline(polylineOptions);
 
 // 将地图视野移动到折线所在区域(指定西南坐标和东北坐标)，设置四周填充的像素
-            tencentMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
-                    new LatLngBounds.Builder()
-                            .include(latLngs).build(),
-                    100));
+//            tencentMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
+//                    new LatLngBounds.Builder()
+//                            .include(latLngs).build(),
+//                    100));
         }
         else {
-            System.out.println("位置不变");
+            if(latLngs.size()<=2)
+            {
+                System.out.println(latLngs.size());
+                System.out.println("无轨迹");
+                return ;
+            }
+            PolylineOptions polylineOptions = new PolylineOptions()
+                    .addAll(latLngs)
+                    // 折线设置圆形线头
+                    .lineCap(true)
+                    // 折线的颜色为绿色
+                    .color(0x8014734B)
+                    // 折线宽度为25像素
+                    .width(10)
+                    // 还可以添加描边颜色
+                    .borderColor(0x7DD9E248)
+                    // 描边颜色的宽度，线宽还是 25 像素，不过填充的部分宽度为 `width` - 2 * `borderWidth`
+                    .borderWidth(2);
+
+// 绘制折线
+            Polyline polyline = tencentMap.addPolyline(polylineOptions);
+//        CameraUpdate cameraSigma = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(39.026403, 117.712015), //新的中心点坐标  x为latitude，y为longitude
+//                17,  //新的缩放级别
+//                0, //俯仰角 0~45° (垂直地图时为0)
+//                0)); //偏航角 0~360° (正北方为0)
+////移动地图
+//        tencentMap.moveCamera(cameraSigma);
+// 构造 PolylineOpitons
+//        PolylineOptions polylineOptions = new PolylineOptions()
+//                .addAll(latLngs)
+//                // 折线设置圆形线头
+//                .lineCap(true)
+//                // 纹理颜色
+//                .color(PolylineOptions.Colors.GRAYBLUE)
+//                .width(25);
+//
+//// 绘制折线
+//        Polyline polyline = tencentMap.addPolyline(polylineOptions);
+
+// 将地图视野移动到折线所在区域(指定西南坐标和东北坐标)，设置四周填充的像素
+//            tencentMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
+//                    new LatLngBounds.Builder()
+//                            .include(latLngs).build(),
+//                    100));
+//            System.out.println("位置不变");
         }
 
 
