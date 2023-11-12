@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(p1.latitude);
             System.out.println(p1.longitude);
             latLngs.add(new LatLng(p1.latitude,p1.latitude));
+
         }
         setContentView(R.layout.activity_main);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -103,7 +104,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         add_dairy= findViewById(R.id.add_dairy);
-
+//        latLngs.add(new LatLng(39.026384,117.712723));
+//        latLngs.add(new LatLng(39.027084,117.712523));
+//        latLngs.add(new LatLng(39.027187,117.713123));
+//        latLngs.add(new LatLng(39.027582,117.713823));
+//        latLngs.add(new LatLng(39.987942,117.714124));
+//        latLngs.add(new LatLng(39.988355,117.713652));
         //设置增加日记界面的弹出与收起
         add_dairy.setVisibility(View.GONE);
         ImageButton exit_dairy_button = findViewById(R.id.dairy_exit);
@@ -270,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             old_lgt = lgt;
             System.out.println("位置更新");
             db1.insertPosition(new Position(lat,lgt));
+            System.out.println("数据库插入成功");
             latLngs.add(new LatLng(lat,lgt));
 // 构造 PolylineOpitons
             PolylineOptions polylineOptions = new PolylineOptions()
@@ -277,13 +284,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // 折线设置圆形线头
                     .lineCap(true)
                     // 折线的颜色为绿色
-                    .color(0xff00ff00)
+                    .color(0x8014734B)
                     // 折线宽度为25像素
-                    .width(25)
+                    .width(10)
                     // 还可以添加描边颜色
-                    .borderColor(0xffff0000)
+                    .borderColor(0x7DD9E248)
                     // 描边颜色的宽度，线宽还是 25 像素，不过填充的部分宽度为 `width` - 2 * `borderWidth`
-                    .borderWidth(5);
+                    .borderWidth(2);
 
 // 绘制折线
             Polyline polyline = tencentMap.addPolyline(polylineOptions);
@@ -306,13 +313,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        Polyline polyline = tencentMap.addPolyline(polylineOptions);
 
 // 将地图视野移动到折线所在区域(指定西南坐标和东北坐标)，设置四周填充的像素
-            tencentMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
-                    new LatLngBounds.Builder()
-                            .include(latLngs).build(),
-                    100));
+//            tencentMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
+//                    new LatLngBounds.Builder()
+//                            .include(latLngs).build(),
+//                    100));
         }
         else {
-            System.out.println("位置不变");
+            if(latLngs.size()<=2)
+            {
+                System.out.println(latLngs.size());
+                System.out.println("无轨迹");
+                return ;
+            }
+            PolylineOptions polylineOptions = new PolylineOptions()
+                    .addAll(latLngs)
+                    // 折线设置圆形线头
+                    .lineCap(true)
+                    // 折线的颜色为绿色
+                    .color(0x8014734B)
+                    // 折线宽度为25像素
+                    .width(10)
+                    // 还可以添加描边颜色
+                    .borderColor(0x7DD9E248)
+                    // 描边颜色的宽度，线宽还是 25 像素，不过填充的部分宽度为 `width` - 2 * `borderWidth`
+                    .borderWidth(2);
+
+// 绘制折线
+            Polyline polyline = tencentMap.addPolyline(polylineOptions);
+//        CameraUpdate cameraSigma = CameraUpdateFactory.newCameraPosition(new CameraPosition(new LatLng(39.026403, 117.712015), //新的中心点坐标  x为latitude，y为longitude
+//                17,  //新的缩放级别
+//                0, //俯仰角 0~45° (垂直地图时为0)
+//                0)); //偏航角 0~360° (正北方为0)
+////移动地图
+//        tencentMap.moveCamera(cameraSigma);
+// 构造 PolylineOpitons
+//        PolylineOptions polylineOptions = new PolylineOptions()
+//                .addAll(latLngs)
+//                // 折线设置圆形线头
+//                .lineCap(true)
+//                // 纹理颜色
+//                .color(PolylineOptions.Colors.GRAYBLUE)
+//                .width(25);
+//
+//// 绘制折线
+//        Polyline polyline = tencentMap.addPolyline(polylineOptions);
+
+// 将地图视野移动到折线所在区域(指定西南坐标和东北坐标)，设置四周填充的像素
+//            tencentMap.moveCamera(CameraUpdateFactory.newLatLngBounds(
+//                    new LatLngBounds.Builder()
+//                            .include(latLngs).build(),
+//                    100));
+//            System.out.println("位置不变");
         }
 
 
