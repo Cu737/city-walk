@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private View add_dairy;
 
+    private View half_transparent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +42,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         add_dairy= findViewById(R.id.add_dairy);
+        half_transparent = findViewById(R.id.half_transparent);
 
         //设置增加日记界面的弹出与收起
         add_dairy.setVisibility(View.GONE);
+        half_transparent.setVisibility(View.GONE);
         ImageButton exit_dairy_button = findViewById(R.id.dairy_exit);
         exit_dairy_button.setOnClickListener(this);
+
     }
 
     /**
@@ -92,7 +97,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ButtonChoose.chooseButton(this,view);
         if(view.getId() == R.id.dairy_exit)
         {
+
             add_dairy.setVisibility(View.GONE);
+            half_transparent.setVisibility(View.GONE);
 
         }
 
