@@ -16,6 +16,7 @@ import android.view.View;
 
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.widget.ImageButton;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -103,17 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //设置顶部状态栏为透明
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        add_dairy= findViewById(R.id.add_dairy);
-//        latLngs.add(new LatLng(39.026384,117.712723));
-//        latLngs.add(new LatLng(39.027084,117.712523));
-//        latLngs.add(new LatLng(39.027187,117.713123));
-//        latLngs.add(new LatLng(39.027582,117.713823));
-//        latLngs.add(new LatLng(39.987942,117.714124));
-//        latLngs.add(new LatLng(39.988355,117.713652));
-        //设置增加日记界面的弹出与收起
-        add_dairy.setVisibility(View.GONE);
-        ImageButton exit_dairy_button = findViewById(R.id.dairy_exit);
-        exit_dairy_button.setOnClickListener(this);
+
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
@@ -127,6 +118,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                draw_road();
             }
         }, 0, 5000);
+        add_dairy= findViewById(R.id.add_dairy);
+
+        //设置增加日记界面的弹出与收起
+        add_dairy.setVisibility(View.GONE);
+        ImageButton exit_dairy_button = findViewById(R.id.dairy_exit);
+        exit_dairy_button.setOnClickListener(this);
     }
 
     /**
