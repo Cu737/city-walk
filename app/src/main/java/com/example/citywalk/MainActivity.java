@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ImageButton;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TencentMap tencentMap;
 
     private View add_dairy;
+    private EditText edit_dairy;
+
 
     private TencentLocationManager locationManager;
     private TencentLocationRequest locationRequest;
@@ -64,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private View half_transparent;
+
+    Log Log;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 System.out.println("执行成功");
-               draw_road();
+                draw_road();
             }
         }, 0, 5000);
         add_dairy= findViewById(R.id.add_dairy);
@@ -133,6 +138,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         half_transparent.setVisibility(View.GONE);
         ImageButton exit_dairy_button = findViewById(R.id.dairy_exit);
         exit_dairy_button.setOnClickListener(this);
+
+        View add_image = findViewById(R.id.add_image);
+        add_image.setOnClickListener(this);
+        View save_dairy = findViewById(R.id.save_diary);
+        save_dairy.setOnClickListener(this);
+        edit_dairy = findViewById(R.id.edit_diary);
+        edit_dairy.setOnClickListener(this);
 
     }
 
@@ -184,6 +196,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             add_dairy.setVisibility(View.GONE);
             half_transparent.setVisibility(View.GONE);
+
+        }
+        else if(view.getId() == R.id.save_diary)
+        {
+
+            android.view.animation.TranslateAnimation animation = new android.view.animation.TranslateAnimation(0,15,0,15);
+            animation.setDuration(500);
+            animation.setFillAfter(false);
+            view.startAnimation(animation);
+
+            String text = edit_dairy.getText().toString();
+
+            Log.w("edit_message", "输入的内容: " +text);
+
+        } else if(view.getId() == R.id.add_image)
+        {
 
         }
 
