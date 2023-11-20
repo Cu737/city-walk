@@ -65,10 +65,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-
+    Log Log;
     private View half_transparent;
 
-    Log Log;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
