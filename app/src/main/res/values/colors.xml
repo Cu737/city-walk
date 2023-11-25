@@ -10,7 +10,5 @@
     <color name="green_100">#E6EED9</color>
     <color name="green_200">#E2F8F5</color>
     <color name="translate">#00FFFFFF</color>
-    <color name="white_half_transparent">#8FFFFFFF</color>
-    <color name="transparent">#00000000</color>
-    <color name="dark">#888888</color>
+    <color name="white_half_transparent">#80FFFFFF</color>
 </resources>

@@ -35,9 +35,8 @@ public class UserDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "create table position"+"(" +
                 "ID INTEGER PRIMARY KEY," +
-                "    latitude double NOT NULL," +
-                "longitude double NOT NULL," +
-                "    primary key(ID)" +
+                "    latitude double ," +
+                "longitude double " +
                 ");";
         sqLiteDatabase.execSQL(sql);
 

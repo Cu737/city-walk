@@ -30,7 +30,10 @@ public class ButtonChoose {
         if(btn_id == R.id.add_btn && activity.getLocalClassName().equals("MainActivity"))
         {
             View add_dairy = activity.findViewById(R.id.add_dairy);
+            View half_transparent = activity.findViewById(R.id.half_transparent);
+            half_transparent.setVisibility(View.VISIBLE);
             add_dairy.setVisibility(View.VISIBLE);
+
         }
         else if(btn_id == R.id.add_btn)
         {
