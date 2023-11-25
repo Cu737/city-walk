@@ -28,7 +28,7 @@ public class DatabaseDiaryAccess extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "create table if not exists " + TABLE +"(" +
                 " id_table integer primary key autoincrement not null," +
-                " position varchar not null, text varchar, image_path varchar" +
+                " position varchar not null, text varchar, picture_path varchar" +
                 ");";
         sqLiteDatabase.execSQL(sql);
     }
