@@ -31,6 +31,15 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <!-- A-GPS辅助定位权限，方便GPS快速准确定位 -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
             android:allowBackup="true"
             android:dataExtractionRules="@xml/data_extraction_rules"
@@ -40,6 +49,7 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.CityWalk"
+            android:requestLegacyExternalStorage="true"
             tools:targetApi="31">
         <activity
                 android:name=".AboutUsActivity"
@@ -100,6 +110,18 @@
         <meta-data
                 android:name="TencentMapSDK"
                 android:value="YJGBZ-HDMLA-ZFSKD-CWG6G-P57Y5-WGFEU"/>
+        <provider
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="com.example.citywalk"
+                android:exported="false"
+                android:grantUriPermissions="true"
+                tools:ignore="WrongManifestParent">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/file_paths" />
+        </provider>
+
+
     </application>
 
 </manifest>
