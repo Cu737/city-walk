@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.icu.text.Transliterator;
 import android.location.Location;
 
@@ -20,9 +22,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.*;
 import android.widget.ImageButton;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,10 +43,9 @@ import com.tencent.tencentmap.mapsdk.maps.TencentMapInitializer;
 import com.tencent.tencentmap.mapsdk.maps.TextureMapView;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static androidx.constraintlayout.motion.widget.Debug.getLocation;
 
@@ -258,8 +257,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         switch (which) {
                             // 选择了拍照
                             case 0:
+                                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                                String imageFileName = "JPEG_" + timeStamp + "_";
+                                File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                                System.out.println(Environment.DIRECTORY_PICTURES);
+                                System.out.println(storageDir);
+                                File takePhotoImage = null;
+                                try {
+                                    takePhotoImage = File.createTempFile(
+                                            imageFileName,  /* prefix */
+                                            ".jpg",         /* suffix */
+                                            storageDir      /* directory */
+                                    );
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+
+
                                 // 创建文件保存拍照的图片
-                                File takePhotoImage = new File(Environment.getExternalStorageDirectory(), "take_photo_image.jpg");
+
                                 try {
                                     // 文件存在，删除文件
                                     if (takePhotoImage.exists()) {
@@ -274,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 // imageUri = Uri.fromFile(takePhotoImage);
                                 if (Build.VERSION.SDK_INT >= 24) {
                                     imageUri = FileProvider.getUriForFile(MainActivity.this,
-                                            "com.example.myapplication.MainActivity2", takePhotoImage);
+                                            "com.example.citywalk", takePhotoImage);
                                 } else {
                                     imageUri = Uri.fromFile(takePhotoImage);
                                 }
@@ -287,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 break;
                             // 调用系统图库
                             case 1:
-
+                                System.out.println(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                 // 创建Intent，用于打开手机本地图库选择图片
                                 Intent intent1 = new Intent(Intent.ACTION_PICK,
                                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -349,12 +365,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // 展示拍照后裁剪的图片
                         if (imageUri != null) {
                             // 创建BitmapFactory.Options对象
-                            //BitmapFactory.Options option = new BitmapFactory.Options();
+                            BitmapFactory.Options option = new BitmapFactory.Options();
                             // 属性设置，用于压缩bitmap对象
-                            //option.inSampleSize = 2;
-                            //option.inPreferredConfig = Bitmap.Config.RGB_565;
+                            option.inSampleSize = 2;
+                            option.inPreferredConfig = Bitmap.Config.RGB_565;
                             // 根据文件流解析生成Bitmap对象
-                            //Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri), null, option);
+                            Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri), null, option);
+                            Log.w("edit_message", "输入的内容: " + imageUri);
                             // 展示图片
                             //iv_show_picture.setImageBitmap(bitmap);
                         }

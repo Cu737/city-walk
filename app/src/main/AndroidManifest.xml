@@ -112,7 +112,7 @@
                 android:value="YJGBZ-HDMLA-ZFSKD-CWG6G-P57Y5-WGFEU"/>
         <provider
                 android:name="androidx.core.content.FileProvider"
-                android:authorities="com.example.myapplication.MainActivity2"
+                android:authorities="com.example.citywalk"
                 android:exported="false"
                 android:grantUriPermissions="true"
                 tools:ignore="WrongManifestParent">
