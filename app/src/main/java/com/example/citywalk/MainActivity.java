@@ -1,16 +1,22 @@
 package com.example.citywalk;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.icu.text.Transliterator;
 import android.location.Location;
 
 import android.graphics.Color;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 
@@ -22,6 +28,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import com.example.citywalk.database.UserDBHelper;
 import com.example.citywalk.enity.Position;
 import com.tencent.map.geolocation.TencentLocation;
@@ -35,6 +42,7 @@ import com.tencent.tencentmap.mapsdk.maps.TencentMap;
 import com.tencent.tencentmap.mapsdk.maps.TencentMapInitializer;
 import com.tencent.tencentmap.mapsdk.maps.TextureMapView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -48,6 +56,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private View add_dairy;
     private EditText edit_dairy;
+
+    private static final String TAG = "图片";
+
+    private static final int TAKE_PHOTO = 11;// 拍照
+    private static final int CROP_PHOTO_TAKE = 12;// 裁剪图片
+    private static final int LOCAL_CROP = 13;// 本地图库
+    private static final int CROP_PHOTO_LOCAL = 14;// 裁剪图片
+    private Uri imageUri;// 拍照时的图片uri
 
 
     private TencentLocationManager locationManager;
@@ -73,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestPermission();
         TencentMapInitializer.setAgreePrivacy(true);
         TencentLocationManager.setUserAgreePrivacy(true);
         db1 = UserDBHelper.getInstance(this);
@@ -186,6 +204,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onRestart();
         mapView.onRestart();
     }
+    //动态请求权限
+    private void requestPermission() {
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            //请求权限
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1);
+        }
+    }
 
 
     @Override
@@ -212,13 +238,157 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else if(view.getId() == R.id.add_image)
         {
-
+            takePhotoOrSelectPicture();// 拍照或者调用图库
         }
 
 
 
 
     }
+
+    private void takePhotoOrSelectPicture() {
+        CharSequence[] items = {"拍照", "图库"};// 裁剪items选项
+
+        // 弹出对话框提示用户拍照或者是通过本地图库选择图片
+        new AlertDialog.Builder(MainActivity.this)
+                .setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        switch (which) {
+                            // 选择了拍照
+                            case 0:
+                                // 创建文件保存拍照的图片
+                                File takePhotoImage = new File(Environment.getExternalStorageDirectory(), "take_photo_image.jpg");
+                                try {
+                                    // 文件存在，删除文件
+                                    if (takePhotoImage.exists()) {
+                                        takePhotoImage.delete();
+                                    }
+                                    // 根据路径名自动的创建一个新的空文件
+                                    takePhotoImage.createNewFile();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                // 获取图片文件的uri对象
+                                // imageUri = Uri.fromFile(takePhotoImage);
+                                if (Build.VERSION.SDK_INT >= 24) {
+                                    imageUri = FileProvider.getUriForFile(MainActivity.this,
+                                            "com.example.myapplication.MainActivity2", takePhotoImage);
+                                } else {
+                                    imageUri = Uri.fromFile(takePhotoImage);
+                                }
+                                // 创建Intent，用于启动手机的照相机拍照
+                                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                // 指定输出到文件uri中
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                                // 启动intent开始拍照
+                                startActivityForResult(intent, TAKE_PHOTO);
+                                break;
+                            // 调用系统图库
+                            case 1:
+
+                                // 创建Intent，用于打开手机本地图库选择图片
+                                Intent intent1 = new Intent(Intent.ACTION_PICK,
+                                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                // 启动intent打开本地图库
+                                startActivityForResult(intent1, LOCAL_CROP);
+                                break;
+
+                        }
+
+                    }
+                }).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+
+            case TAKE_PHOTO:// 拍照
+
+                if (resultCode == RESULT_OK) {
+                    // 创建intent用于裁剪图片
+                    Intent intent = new Intent("com.android.camera.action.CROP");
+                    // 设置数据为文件uri，类型为图片格式
+                    intent.setDataAndType(imageUri, "image/*");
+                    // 允许裁剪
+                    intent.putExtra("scale", true);
+                    // 指定输出到文件uri中
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    // 启动intent，开始裁剪
+                    startActivityForResult(intent, CROP_PHOTO_TAKE);
+                }
+                break;
+            case LOCAL_CROP:// 系统图库
+
+                if (resultCode == RESULT_OK) {
+                    // 创建intent用于裁剪图片
+                    Intent intent1 = new Intent("com.android.camera.action.CROP");
+                    // 获取图库所选图片的uri
+                    Uri uri = data.getData();
+                    intent1.setDataAndType(uri, "image/*");
+                    //  设置裁剪图片的宽高
+                    intent1.putExtra("outputX", 300);
+                    intent1.putExtra("outputY", 300);
+                    // 裁剪后返回数据
+                    intent1.putExtra("return-data", true);
+                    // 启动intent，开始裁剪
+                    startActivityForResult(intent1, CROP_PHOTO_LOCAL);
+                }
+
+                break;
+            case CROP_PHOTO_TAKE:// 裁剪后展示图片
+                if (resultCode == RESULT_OK) {
+                    try {
+                        // 展示拍照后裁剪的图片
+                        if (imageUri != null) {
+                            // 创建BitmapFactory.Options对象
+                            //BitmapFactory.Options option = new BitmapFactory.Options();
+                            // 属性设置，用于压缩bitmap对象
+                            //option.inSampleSize = 2;
+                            //option.inPreferredConfig = Bitmap.Config.RGB_565;
+                            // 根据文件流解析生成Bitmap对象
+                            //Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri), null, option);
+                            // 展示图片
+                            //iv_show_picture.setImageBitmap(bitmap);
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case CROP_PHOTO_LOCAL:// 裁剪后展示图片
+                if (resultCode == RESULT_OK) {
+                    try {
+                        // 展示图库中选择裁剪后的图片
+                        if (data != null) {
+                            // 根据返回的data，获取Bitmap对象
+                            //Bitmap bitmap = data.getExtras().getParcelable("data");
+                            // 展示图片
+                            //iv_show_picture.setImageBitmap(bitmap);
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+
+        }
+
+    }
+
+
+
+
+
     private List<LatLng> getLatlons(double lat,double lgt){
 
         latLngs.add(new LatLng(lat,lgt));
