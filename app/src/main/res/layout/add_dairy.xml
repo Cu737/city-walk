@@ -17,7 +17,8 @@
                       android:layout_height="50dp"
                       android:src="@drawable/create_diary"
                       android:layout_alignParentTop="true"
-                      android:layout_centerHorizontal="true"/>
+                      android:layout_centerHorizontal="true"
+                    />
             <ImageButton android:layout_width="30dp"
                          android:layout_height="30dp"
                          android:src="@drawable/add_diary_cancel"
@@ -36,18 +37,27 @@
                       android:padding="10dp">
             <ImageView android:layout_width="30dp" android:layout_height="30dp"
                        android:src="@drawable/add_diary_pic_input" android:layout_marginRight="8dp"/>
-            <ImageView android:layout_width="100dp" android:layout_height="30dp"
-                      android:src="@drawable/record_my_life"/>
+            <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+                <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:hint="记录我的生活"
+                          android:textSize="20dp"
+                          android:background="@null"
+                          android:fontFamily="@font/nanfeng"
+                          android:textColor="#898989"
+                            android:id="@+id/edit_diary"/>
+            </ScrollView>
+
         </LinearLayout>
 
         <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:padding="10dp">
-            <ImageView android:layout_width="30dp" android:layout_height="30dp"
-                       android:src="@drawable/add_diary_send"
+            <Button android:layout_width="30dp" android:layout_height="30dp"
+                       android:background="@drawable/add_diary_send"
                        android:layout_alignParentBottom="true"
                        android:layout_alignParentRight="true" android:layout_marginRight="20dp"
-                       android:layout_marginBottom="0dp"/>
+                       android:layout_marginBottom="0dp"
+                        android:id="@+id/save_diary"/>
             <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
                             android:layout_alignParentLeft="true"
@@ -55,17 +65,26 @@
                             android:padding="20dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginLeft="50dp">
-                <LinearLayout android:layout_width="90dp" android:layout_height="90dp"
-                              android:orientation="vertical"
-                              android:paddingTop="40dp"
-                              android:paddingBottom="5dp"
-                              android:background="@drawable/add_diary_dashbox">
-                    <ImageView android:layout_width="20dp" android:layout_height="20dp"
-                               android:src="@drawable/add_diary_camera"
-                               android:layout_gravity="center_horizontal"/>
-                    <ImageView android:layout_width="match_parent" android:layout_height="30dp"
-                              android:src="@drawable/add_photo"/>
-                </LinearLayout>
+                <FrameLayout android:layout_width="90dp" android:layout_height="90dp">
+                    <ImageButton android:layout_width="match_parent" android:layout_height="match_parent"
+                    android:src="@drawable/square_button_change"
+                                 android:background="@null"
+                    android:id="@+id/add_image">
+
+                    </ImageButton>
+                    <LinearLayout android:layout_width="90dp" android:layout_height="90dp"
+                                  android:orientation="vertical"
+                                  android:paddingTop="40dp"
+                                  android:paddingBottom="5dp"
+                                  android:background="@drawable/add_diary_dashbox">
+                        <ImageView android:layout_width="20dp" android:layout_height="20dp"
+                                   android:src="@drawable/add_diary_camera"
+                                   android:layout_gravity="center_horizontal"/>
+                        <ImageView android:layout_width="match_parent" android:layout_height="30dp"
+                                   android:src="@drawable/add_photo"/>
+                    </LinearLayout>
+                </FrameLayout>
+
             </RelativeLayout>
         </RelativeLayout>
 
