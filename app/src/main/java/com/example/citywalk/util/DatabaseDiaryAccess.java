@@ -1,14 +1,21 @@
 package com.example.citywalk.util;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseDiaryAccess extends SQLiteOpenHelper {
     private static final String DB = "CityWalk.db";
     private static final String TABLE = "diary";
     private static final int VERSION_DB = 0;
     private static DatabaseDiaryAccess instance = null;
+
+    private static final int POSITION = 1, TEXT = 2, PICTURE_PATH = 3;
 
     private SQLiteDatabase readLink = null, writeLink = null;
 
@@ -48,7 +55,8 @@ public class DatabaseDiaryAccess extends SQLiteOpenHelper {
         return writeLink;
     }
 
-    public void closeLink() {
+    @Override
+    public void close() {
         if (null != readLink && readLink.isOpen())
         {
             readLink.close();
@@ -59,6 +67,33 @@ public class DatabaseDiaryAccess extends SQLiteOpenHelper {
             writeLink.close();
             writeLink = null;
         }
+    }
+
+    public long insert(EntryDiary diary) {
+        ContentValues content = new ContentValues();
+        content.put("position", diary.getPosition());
+        content.put("text", diary.getText());
+        content.put("picture_path", diary.getPicture_path());
+        return writeLink.insert(TABLE, null, content);
+    }
+
+    public List<EntryDiary> getByPosition(String position) {
+        Cursor query = readLink.query(
+                TABLE,
+                new String[]{"position", "text", "picture_path"},
+                "position=?",
+                new String[]{position},
+                null, null, null);
+        List<EntryDiary> diaryList = new ArrayList<>();
+        while (query.moveToNext()) {
+            diaryList.add(new EntryDiary(
+                    query.getString(POSITION),
+                    query.getString(TEXT),
+                    query.getString(PICTURE_PATH)
+            ));
+        }
+        query.close();
+        return diaryList;
     }
 
 }
