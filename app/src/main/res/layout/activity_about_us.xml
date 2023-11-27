@@ -7,4 +7,66 @@
         android:layout_height="match_parent"
         tools:context=".AboutUsActivity">
 
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/setting_background_square"
+                  android:orientation="vertical">
+        <ImageView android:layout_width="match_parent" android:layout_height="100dp"
+                   android:layout_marginTop="40dp"
+
+        android:src="@drawable/about_us_pic">
+
+        </ImageView>
+        <ScrollView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        >
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:orientation="vertical">
+                <TextView android:layout_width="match_parent" android:layout_height="30dp"
+                          android:text=">>   团队介绍"
+                          android:textStyle="bold"
+                          android:layout_marginStart="30dp"
+                          android:layout_marginEnd="30dp"
+                          android:fontFamily="@font/nanfeng"
+                          android:textSize="25dp"
+                          android:textColor="@color/black"
+                />
+                <TextView android:layout_width="match_parent" android:layout_height="300dp"
+                          android:layout_marginStart="40dp"
+                          android:layout_marginEnd="40dp"
+                          android:text="年轻而富有创意的南开大学学生团队。热爱技术，关注生活，既有天马行空的思考，又具备严谨的落地能力。团队成员四位，皆是优秀的软件工程专业在校大学生。
+                          \n    卞一童 团队组长 \n     邮箱2110841@mail.nankai.edu.cn
+                          \n    刘昌瀚 团队成员 \n     邮箱2112216@mail.nankai.edu.cn
+                          \n    缪潍姿 团队成员 \n     邮箱2113931@mail.nankai.edu.cn
+                          \n    林铎鸣 团队成员 \n     邮箱2114010@mail.nankai.edu.cn"
+                          android:fontFamily="@font/nanfeng"
+                          android:textSize="20dp"
+                          android:textColor="@color/black"
+                          android:layout_marginBottom="20dp">
+
+                </TextView>
+                <TextView android:layout_width="match_parent" android:layout_height="30dp"
+                          android:text=">>   为何开发City Walk App"
+                          android:textStyle="bold"
+                          android:layout_marginStart="30dp"
+                          android:layout_marginEnd="30dp"
+                          android:fontFamily="@font/nanfeng"
+                          android:textSize="25dp"
+                          android:textColor="@color/black"
+
+                />
+                <TextView android:layout_width="match_parent" android:layout_height="400dp"
+                          android:layout_marginStart="40dp"
+                          android:layout_marginEnd="40dp"
+                          android:text="在2023年夏天，City Walk（城市漫游）成为中国城市年轻人的新风潮。小红书上相关标签的笔记多达60万+。City Walk这个从英国伦敦远道而来的活动，在中国的火热程度在我们团队引起了关注和讨论。这个活动本质是倡导年轻人抛弃原来的单调枯燥的生活态度，建立积极而丰富生活理念，随着城市的轨迹，探寻游走的乐趣，找寻轻松、自由、自信的自己。既然受众广泛，切中年轻人生活辛苦压抑的痛点，追求生活的乐趣和意义，那么必然会产生记录美好，分享路途日常的需要。由于活动新潮，目前尚未有成熟的软件产品来服务City Walk引起的需求，所以我们团队决定针对这些需求来设计开发一款2C软件，并命名为City Walk。"
+                          android:fontFamily="@font/nanfeng"
+                          android:textSize="20dp"
+                          android:textColor="@color/black"
+                          android:layout_marginBottom="20dp">
+
+                </TextView>
+
+            </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
