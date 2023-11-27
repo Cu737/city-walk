@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static UserDBHelper db1 = null;
 
+    private Uri save_uri;
+
 
 
     Log Log;
@@ -234,6 +236,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String text = edit_dairy.getText().toString();
 
             Log.w("edit_message", "输入的内容: " +text);
+            Log.w("edit_message",lat+" "+lgt);
+            Log.w("edit_message", "图片: " +save_uri);
+
 
         } else if(view.getId() == R.id.add_image)
         {
@@ -294,6 +299,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 } else {
                                     imageUri = Uri.fromFile(takePhotoImage);
                                 }
+                                save_uri = imageUri;
+
                                 // 创建Intent，用于启动手机的照相机拍照
                                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                                 // 指定输出到文件uri中
@@ -348,6 +355,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Intent intent1 = new Intent("com.android.camera.action.CROP");
                     // 获取图库所选图片的uri
                     Uri uri = data.getData();
+                    save_uri = uri;
                     intent1.setDataAndType(uri, "image/*");
                     //  设置裁剪图片的宽高
                     intent1.putExtra("outputX", 300);
@@ -365,13 +373,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // 展示拍照后裁剪的图片
                         if (imageUri != null) {
                             // 创建BitmapFactory.Options对象
-                            BitmapFactory.Options option = new BitmapFactory.Options();
+                            //BitmapFactory.Options option = new BitmapFactory.Options();
                             // 属性设置，用于压缩bitmap对象
-                            option.inSampleSize = 2;
-                            option.inPreferredConfig = Bitmap.Config.RGB_565;
+                            //option.inSampleSize = 2;
+                            //option.inPreferredConfig = Bitmap.Config.RGB_565;
                             // 根据文件流解析生成Bitmap对象
-                            Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri), null, option);
-                            Log.w("edit_message", "输入的内容: " + imageUri);
+                            //Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri), null, option);
+                            //Log.w("edit_message", "输入的内容: " + imageUri);
                             // 展示图片
                             //iv_show_picture.setImageBitmap(bitmap);
                         }
