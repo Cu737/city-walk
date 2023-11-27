@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static UserDBHelper db1 = null;
 
-    private View add_dairy;
 
 
     private View half_transparent;
