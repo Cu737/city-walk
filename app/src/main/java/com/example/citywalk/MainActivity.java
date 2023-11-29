@@ -228,7 +228,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(view.getId() == R.id.save_diary)
         {
-
+            ImageButton imageView = (ImageButton) findViewById(R.id.add_image);
+            System.out.println("可以执行");
+         //   imageView.setImageBitmap(BitmapFactory.decodeFile("drawable/square_button_change"));
+            imageView.setImageResource(R.drawable.square_button_change);
+            System.out.println("yes");
             android.view.animation.TranslateAnimation animation = new android.view.animation.TranslateAnimation(0,15,0,15);
             animation.setDuration(500);
             animation.setFillAfter(false);
