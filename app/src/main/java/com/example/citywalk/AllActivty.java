@@ -55,6 +55,7 @@ public class AllActivty extends AppCompatActivity implements View.OnClickListene
     private TencentMap tencentMap;
     private TrailOverlayProvider trailOverlayProvider;
     private TextureMapView mapView;
+    private static UserDBHelper db1 = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,36 +104,49 @@ public class AllActivty extends AppCompatActivity implements View.OnClickListene
         System.out.println("执行到这里2");
         trailOverlayProvider = new TrailOverlayProvider().data(startLats);
         tencentMap.addVectorOverlay(trailOverlayProvider);
-        LatLng latLng1 = new LatLng(39.984104, 116.307503);
-        LatLng latLng2 = new LatLng(39.984198, 116.307296);
-        LatLng latLng3 = new LatLng(39.984221, 116.307296);
-//        Bitmap bitmap = Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888);
-//        Canvas canvas = new Canvas(bitmap);
-//        Paint paint = new Paint();
-//        paint.setColor(Color.BLUE);
-//        canvas.drawCircle(5, 5, 50, paint);
-// 创建并添加标记
+        db1 = UserDBHelper.getInstance(this);
+        db1.openReadLink();
+        db1.openWriteLink();
+        List<Position> lat1= db1.queryAllPosition();
+        for (Position p1 : lat1) {
+            System.out.println(p1.latitude);
+            System.out.println(p1.longitude);
+            LatLng latLngs1 = new LatLng(p1.latitude,p1.latitude);
+            MarkerOptions markerOptions1 = new MarkerOptions()
+                    .position(latLngs1)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            Marker marker1 = tencentMap.addMarker(markerOptions1);
+        }
+//        LatLng latLng1 = new LatLng(39.984104, 116.307503);
+//        LatLng latLng2 = new LatLng(39.984198, 116.307296);
+//        LatLng latLng3 = new LatLng(39.984221, 116.307296);
+////        Bitmap bitmap = Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888);
+////        Canvas canvas = new Canvas(bitmap);
+////        Paint paint = new Paint();
+////        paint.setColor(Color.BLUE);
+////        canvas.drawCircle(5, 5, 50, paint);
+//// 创建并添加标记
+////        MarkerOptions markerOptions1 = new MarkerOptions()
+////                .position(latLng1)
+////                .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
+////        MarkerOptions markerOptions2 = new MarkerOptions()
+////                .position(latLng2)
+////                .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
+////        MarkerOptions markerOptions3 = new MarkerOptions()
+////                .position(latLng3)
+////                .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
 //        MarkerOptions markerOptions1 = new MarkerOptions()
 //                .position(latLng1)
-//                .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
+//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 //        MarkerOptions markerOptions2 = new MarkerOptions()
 //                .position(latLng2)
-//                .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
+//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 //        MarkerOptions markerOptions3 = new MarkerOptions()
 //                .position(latLng3)
-//                .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
-        MarkerOptions markerOptions1 = new MarkerOptions()
-                .position(latLng1)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        MarkerOptions markerOptions2 = new MarkerOptions()
-                .position(latLng2)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        MarkerOptions markerOptions3 = new MarkerOptions()
-                .position(latLng3)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        Marker marker1 = tencentMap.addMarker(markerOptions1);
-        Marker marker2 = tencentMap.addMarker(markerOptions2);
-        Marker marker3 = tencentMap.addMarker(markerOptions3);
+//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+//        Marker marker1 = tencentMap.addMarker(markerOptions1);
+//        Marker marker2 = tencentMap.addMarker(markerOptions2);
+//        Marker marker3 = tencentMap.addMarker(markerOptions3);
         int[] colors = {Color.argb((int) (255), 0xff, 0xca, 0x1f), Color.argb((int) (255 * 0.9), 0xcc, 0x18, 0x5d)};
         //设置轨迹线渐变颜色
         trailOverlayProvider.gradient(colors);

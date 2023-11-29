@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.icu.text.Transliterator;
@@ -344,18 +345,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case LOCAL_CROP:// 系统图库
 
                 if (resultCode == RESULT_OK) {
-                    // 创建intent用于裁剪图片
-                    Intent intent1 = new Intent("com.android.camera.action.CROP");
-                    // 获取图库所选图片的uri
-                    Uri uri = data.getData();
-                    intent1.setDataAndType(uri, "image/*");
-                    //  设置裁剪图片的宽高
-                    intent1.putExtra("outputX", 300);
-                    intent1.putExtra("outputY", 300);
-                    // 裁剪后返回数据
-                    intent1.putExtra("return-data", true);
-                    // 启动intent，开始裁剪
-                    startActivityForResult(intent1, CROP_PHOTO_LOCAL);
+//                    // 创建intent用于裁剪图片
+//                    Intent intent1 = new Intent("com.android.camera.action.CROP");
+//                    // 获取图库所选图片的uri
+//                    Uri uri = data.getData();
+//                    intent1.setDataAndType(uri, "image/*");
+//                    //  设置裁剪图片的宽高
+//                    intent1.putExtra("outputX", 300);
+//                    intent1.putExtra("outputY", 300);
+//                    // 裁剪后返回数据
+//
+//                    intent1.putExtra("return-data", true);
+//                    // 启动intent，开始裁剪
+//                    startActivityForResult(intent1, CROP_PHOTO_LOCAL);
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+                    Cursor cursor = getContentResolver().query(selectedImage,
+                            filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    cursor.close();
+                    System.out.println(picturePath);
+                    ImageButton imageView = (ImageButton) findViewById(R.id.add_image);
+                    System.out.println("可以执行");
+                    imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                    System.out.println("yes");
                 }
 
                 break;
@@ -373,6 +390,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri), null, option);
                             Log.w("edit_message", "输入的内容: " + imageUri);
                             // 展示图片
+//                            ImageView imageView = (ImageView) findViewById(R.id.imgView);
+//                            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
                             //iv_show_picture.setImageBitmap(bitmap);
                         }
 
