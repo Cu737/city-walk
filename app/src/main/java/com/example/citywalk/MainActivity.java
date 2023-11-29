@@ -14,6 +14,7 @@ import android.location.Location;
 
 import android.graphics.Color;
 import android.location.LocationManager;
+import android.net.TransportInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,8 +31,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import com.example.citywalk.database.SportDBHelper;
 import com.example.citywalk.database.UserDBHelper;
 import com.example.citywalk.enity.Position;
+import com.example.citywalk.enity.Sportinformation;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
@@ -78,26 +81,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static double old_lgt = -1.0000;
 
     private static UserDBHelper db1 = null;
-
+    private static SportDBHelper db2 = null;
     private Uri save_uri;
 
-
+    private static double sport_num = 0.00000;
 
     Log Log;
     private View half_transparent;
 
-
-
+    private static int day = 0;
+    private static Calendar calendar = Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        day = calendar.get(Calendar.DAY_OF_MONTH);
         requestPermission();
         TencentMapInitializer.setAgreePrivacy(true);
         TencentLocationManager.setUserAgreePrivacy(true);
         db1 = UserDBHelper.getInstance(this);
         db1.openReadLink();
         db1.openWriteLink();
+        db2 = SportDBHelper.getInstance(this);
+        db2.openReadLink();
+        db2.openWriteLink();
         List<Position> lat1= db1.queryAllPosition();
         for (Position p1 : lat1) {
             System.out.println(p1.latitude);
@@ -463,6 +469,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(lgt);
             if(old_lgt == -1.0000)
             {
+
                 old_lgt = lgt;
                 old_lat = lat;
                 latLngs.add(new LatLng(lat,lgt));
@@ -525,6 +532,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(old_lgt!=lgt||old_lat!=lat)
         {
+            if (day != calendar.get(Calendar.DAY_OF_MONTH)) {
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                int nowyear = calendar.get(Calendar.YEAR);
+                int nowmonth = calendar.get(Calendar.MONTH) + 1;
+                int nowday = calendar.get(Calendar.DAY_OF_MONTH);
+                String str1 = nowyear +Integer.toString(nowmonth)+ nowday;
+                db2.insertSportinformaiton(new Sportinformation(str1,sport_num));
+                sport_num = 0;
+            }
+            sport_num += Math.sqrt(((lat-old_lat)*(lat-old_lat)+(lgt-old_lgt)*(lgt-old_lgt)))*111000;
             old_lat = lat;
             old_lgt = lgt;
             System.out.println("位置更新");
