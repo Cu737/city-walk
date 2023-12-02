@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schema
         s.android.com/tools"
-        android:layout_width="match_parent"
+        xmlns:tools2="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".AnalyseActivity">
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
@@ -42,6 +42,14 @@
             <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                           android:background="@drawable/setting_background"
                           android:orientation="vertical">
+                <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/line_chart"
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginRight="40dp"
+                        android:layout_height="280dp"
+                        android:layout_marginTop="80dp"
+                        tools2:ignore="MissingClass"/>
 
 
             </LinearLayout>
