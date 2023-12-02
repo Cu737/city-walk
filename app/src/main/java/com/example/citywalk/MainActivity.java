@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.icu.text.Transliterator;
@@ -13,6 +14,7 @@ import android.location.Location;
 
 import android.graphics.Color;
 import android.location.LocationManager;
+import android.net.TransportInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,8 +31,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import com.example.citywalk.database.SportDBHelper;
 import com.example.citywalk.database.UserDBHelper;
 import com.example.citywalk.enity.Position;
+import com.example.citywalk.enity.Sportinformation;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
@@ -77,26 +81,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static double old_lgt = -1.0000;
 
     private static UserDBHelper db1 = null;
-
+    private static SportDBHelper db2 = null;
     private Uri save_uri;
 
-
+    private static double sport_num = 0.00000;
 
     Log Log;
     private View half_transparent;
 
-
-
+    private static int day = 0;
+    private static Calendar calendar = Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        day = calendar.get(Calendar.DAY_OF_MONTH);
         requestPermission();
         TencentMapInitializer.setAgreePrivacy(true);
         TencentLocationManager.setUserAgreePrivacy(true);
         db1 = UserDBHelper.getInstance(this);
         db1.openReadLink();
         db1.openWriteLink();
+        db2 = SportDBHelper.getInstance(this);
+        db2.openReadLink();
+        db2.openWriteLink();
         List<Position> lat1= db1.queryAllPosition();
         for (Position p1 : lat1) {
             System.out.println(p1.latitude);
@@ -227,7 +234,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(view.getId() == R.id.save_diary)
         {
-
+            ImageButton imageView = (ImageButton) findViewById(R.id.add_image);
+            System.out.println("可以执行");
+         //   imageView.setImageBitmap(BitmapFactory.decodeFile("drawable/square_button_change"));
+            imageView.setImageResource(R.drawable.square_button_change);
+            System.out.println("yes");
             android.view.animation.TranslateAnimation animation = new android.view.animation.TranslateAnimation(0,15,0,15);
             animation.setDuration(500);
             animation.setFillAfter(false);
@@ -351,19 +362,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case LOCAL_CROP:// 系统图库
 
                 if (resultCode == RESULT_OK) {
-                    // 创建intent用于裁剪图片
-                    Intent intent1 = new Intent("com.android.camera.action.CROP");
-                    // 获取图库所选图片的uri
-                    Uri uri = data.getData();
-                    save_uri = uri;
-                    intent1.setDataAndType(uri, "image/*");
-                    //  设置裁剪图片的宽高
-                    intent1.putExtra("outputX", 300);
-                    intent1.putExtra("outputY", 300);
-                    // 裁剪后返回数据
-                    intent1.putExtra("return-data", true);
-                    // 启动intent，开始裁剪
-                    startActivityForResult(intent1, CROP_PHOTO_LOCAL);
+//                    // 创建intent用于裁剪图片
+//                    Intent intent1 = new Intent("com.android.camera.action.CROP");
+//                    // 获取图库所选图片的uri
+//                    Uri uri = data.getData();
+//                    intent1.setDataAndType(uri, "image/*");
+//                    //  设置裁剪图片的宽高
+//                    intent1.putExtra("outputX", 300);
+//                    intent1.putExtra("outputY", 300);
+//                    // 裁剪后返回数据
+//
+//                    intent1.putExtra("return-data", true);
+//                    // 启动intent，开始裁剪
+//                    startActivityForResult(intent1, CROP_PHOTO_LOCAL);
+                    Uri selectedImage = data.getData();
+                    save_uri = selectedImage;
+                    String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+                    Cursor cursor = getContentResolver().query(selectedImage,
+                            filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    cursor.close();
+                    System.out.println(picturePath);
+                    ImageButton imageView = (ImageButton) findViewById(R.id.add_image);
+                    System.out.println("可以执行");
+                    imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                    System.out.println("yes");
                 }
 
                 break;
@@ -442,6 +469,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(lgt);
             if(old_lgt == -1.0000)
             {
+
                 old_lgt = lgt;
                 old_lat = lat;
                 latLngs.add(new LatLng(lat,lgt));
@@ -504,6 +532,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(old_lgt!=lgt||old_lat!=lat)
         {
+            if (day != calendar.get(Calendar.DAY_OF_MONTH)) {
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                int nowyear = calendar.get(Calendar.YEAR);
+                int nowmonth = calendar.get(Calendar.MONTH) + 1;
+                int nowday = calendar.get(Calendar.DAY_OF_MONTH);
+                String str1 = nowyear +Integer.toString(nowmonth)+ nowday;
+                db2.insertSportinformaiton(new Sportinformation(str1,sport_num));
+                sport_num = 0;
+            }
+            sport_num += Math.sqrt(((lat-old_lat)*(lat-old_lat)+(lgt-old_lgt)*(lgt-old_lgt)))*111000;
             old_lat = lat;
             old_lgt = lgt;
             System.out.println("位置更新");
