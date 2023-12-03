@@ -45,4 +45,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.tencent.map:tencent-map-vector-sdk:5.2.1'
     implementation 'com.tencent.map:sdk-utilities:1.0.9'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }

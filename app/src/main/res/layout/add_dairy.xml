@@ -17,10 +17,12 @@
                       android:layout_height="50dp"
                       android:src="@drawable/create_diary"
                       android:layout_alignParentTop="true"
-                      android:layout_centerHorizontal="true"/>
+                      android:layout_centerHorizontal="true"
+                    />
             <ImageButton android:layout_width="30dp"
                          android:layout_height="30dp"
                          android:src="@drawable/add_diary_cancel"
+
                          android:background="@color/translate"
                          android:layout_alignParentTop="true" android:layout_alignParentEnd="true"
                          android:id="@+id/dairy_exit"/>
@@ -80,6 +82,7 @@
                                    android:src="@drawable/add_diary_camera"
                                    android:layout_gravity="center_horizontal"/>
                         <ImageView android:layout_width="match_parent" android:layout_height="30dp"
+                                   android:id="@+id/my_image_view"
                                    android:src="@drawable/add_photo"/>
                     </LinearLayout>
                 </FrameLayout>
