@@ -25,19 +25,19 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
 
         ButtonChoose.initButton(this);
 
-        LinearLayout item_1 = (LinearLayout)this.findViewById(R.id.item_1);
+//        LinearLayout item_1 = (LinearLayout)this.findViewById(R.id.item_1);
 
         LinearLayout bigbox = (LinearLayout)this.findViewById(R.id.big_box);
         ImageView cancel_bn=(ImageView)this.findViewById(R.id.bigbox_cancel);
 
 
 
-        item_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bigbox.setVisibility(View.VISIBLE);
-            }
-        });
+//        item_1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                bigbox.setVisibility(View.VISIBLE);
+//            }
+//        });
 
         cancel_bn.setOnClickListener(new View.OnClickListener() {
             @Override
