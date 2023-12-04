@@ -7,9 +7,808 @@
         android:layout_height="match_parent"
         tools:context=".DiaryActivity">
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:background="@color/green_100"
+                      android:gravity="top"
+                      android:orientation="vertical">
+
+            <ImageView android:layout_width="150dp" android:layout_height="60dp"
+                       android:layout_marginTop="10dp"
+                       android:layout_marginStart="14dp"
+                       android:src="@drawable/setting_pic1" >
+
+            </ImageView>
+            <LinearLayout android:layout_marginStart="120dp"
+                          android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+                <ImageView android:layout_width="60dp" android:layout_height="60dp"
+                           android:src="@drawable/setting_pic2"
+                           android:layout_marginStart="30dp">
+
+                </ImageView>
+                <ImageView android:layout_width="120dp" android:layout_height="80dp"
+
+                           android:src="@drawable/diary_title"
+                >
+
+                </ImageView>
+                <ImageView android:layout_width="72dp" android:layout_height="72dp"
+                           android:src="@drawable/setting_pic3"
+                           android:layout_marginTop="8dp">
+
+                </ImageView>
+
+            </LinearLayout>
+            <!--日志展示layout-->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                          android:background="@drawable/setting_background"
+                          android:orientation="vertical">
+                <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+                    <GridLayout android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:columnCount="2">
+                        <!--box item-->
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                                                                      android:orientation="horizontal"
+                                                                      android:layout_width="190dp"
+                                                                      android:layout_height="250dp"
+                                                                      android:layout_margin="6dp"
+                                                                      android:background="@drawable/diary_uni_bg">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:id="@+id/item_1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:gravity="center_vertical"
+                                    android:layout_gravity="center_vertical"
+                                    tools:ignore="MissingConstraints">
+                                <!--顶部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_marginTop="6dp"
+                                        android:gravity="center">
+                                    <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            android:text="2023.10.2"/>
+                                    <ImageView
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:src="@drawable/diary_drop"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--中部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="140dp"
+                                        android:orientation="horizontal"
+                                        android:layout_margin="3dp"
+                                        android:background="@drawable/diary_w_bg">
+                                    <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="6dp"
+                                            android:src="@drawable/diary_r1"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--底部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:orientation="horizontal"
+                                        android:background="@drawable/diary_w_bg"
+                                        android:layout_margin="3dp"
+                                        android:layout_marginBottom="6dp">
+                                    <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="3dp"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:textSize="12sp"
+                                            android:text="旅游就是远离城市的喧嚣，摆脱日常生活......"/>
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <!--box item end-->
+
+                        <!--box item-->
+                        <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+                                                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                                      xmlns:tools="http://schemas.android.com/tools"
+                                                                      android:orientation="horizontal"
+                                                                      android:layout_width="190dp"
+                                                                      android:layout_height="250dp"
+                                                                      android:layout_margin="6dp"
+                                                                      android:background="@drawable/diary_uni_bg">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:gravity="center_vertical"
+                                    android:layout_gravity="center_vertical"
+                                    tools:ignore="MissingConstraints">
+                                <!--顶部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_marginTop="6dp"
+                                        android:gravity="center">
+                                    <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            android:text="2023.10.2"/>
+                                    <ImageView
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:src="@drawable/diary_drop"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--中部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="140dp"
+                                        android:orientation="horizontal"
+                                        android:layout_margin="3dp"
+                                        android:background="@drawable/diary_w_bg">
+                                    <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="6dp"
+                                            android:src="@drawable/diary_r2"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--底部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:orientation="horizontal"
+                                        android:background="@drawable/diary_w_bg"
+                                        android:layout_margin="3dp"
+                                        android:layout_marginBottom="6dp">
+                                    <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="3dp"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:textSize="12sp"
+                                            android:text="旅游就是远离城市的喧嚣，摆脱日常生活......"/>
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <!--box item end-->
+
+                        <!--box item-->
+                        <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+                                                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                                      xmlns:tools="http://schemas.android.com/tools"
+                                                                      android:orientation="horizontal"
+                                                                      android:layout_width="190dp"
+                                                                      android:layout_height="250dp"
+                                                                      android:layout_margin="6dp"
+                                                                      android:background="@drawable/diary_uni_bg">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:gravity="center_vertical"
+                                    android:layout_gravity="center_vertical"
+                                    tools:ignore="MissingConstraints">
+                                <!--顶部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_marginTop="6dp"
+                                        android:gravity="center">
+                                    <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            android:text="2023.10.2"/>
+                                    <ImageView
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:src="@drawable/diary_drop"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--中部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="140dp"
+                                        android:orientation="horizontal"
+                                        android:layout_margin="3dp"
+                                        android:background="@drawable/diary_w_bg">
+                                    <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="6dp"
+                                            android:src="@drawable/diary_r3"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--底部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:orientation="horizontal"
+                                        android:background="@drawable/diary_w_bg"
+                                        android:layout_margin="3dp"
+                                        android:layout_marginBottom="6dp">
+                                    <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="3dp"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:textSize="12sp"
+                                            android:text="旅游就是远离城市的喧嚣，摆脱日常生活......"/>
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <!--box item end-->
+
+                        <!--box item-->
+                        <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+                                                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                                      xmlns:tools="http://schemas.android.com/tools"
+                                                                      android:orientation="horizontal"
+                                                                      android:layout_width="190dp"
+                                                                      android:layout_height="250dp"
+                                                                      android:layout_margin="6dp"
+                                                                      android:background="@drawable/diary_uni_bg">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:gravity="center_vertical"
+                                    android:layout_gravity="center_vertical"
+                                    tools:ignore="MissingConstraints">
+                                <!--顶部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_marginTop="6dp"
+                                        android:gravity="center">
+                                    <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            android:text="2023.10.2"/>
+                                    <ImageView
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:src="@drawable/diary_drop"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--中部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="140dp"
+                                        android:orientation="horizontal"
+                                        android:layout_margin="3dp"
+                                        android:background="@drawable/diary_w_bg">
+                                    <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="6dp"
+                                            android:src="@drawable/diary_r4"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--底部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:orientation="horizontal"
+                                        android:background="@drawable/diary_w_bg"
+                                        android:layout_margin="3dp"
+                                        android:layout_marginBottom="6dp">
+                                    <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="3dp"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:textSize="12sp"
+                                            android:text="旅游就是远离城市的喧嚣，摆脱日常生活......"/>
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <!--box item end-->
+
+                        <!--box item-->
+                        <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+                                                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                                      xmlns:tools="http://schemas.android.com/tools"
+                                                                      android:orientation="horizontal"
+                                                                      android:layout_width="190dp"
+                                                                      android:layout_height="250dp"
+                                                                      android:layout_margin="6dp"
+                                                                      android:background="@drawable/diary_uni_bg">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:gravity="center_vertical"
+                                    android:layout_gravity="center_vertical"
+                                    tools:ignore="MissingConstraints">
+                                <!--顶部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_marginTop="6dp"
+                                        android:gravity="center">
+                                    <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            android:text="2023.10.2"/>
+                                    <ImageView
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:src="@drawable/diary_drop"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--中部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="140dp"
+                                        android:orientation="horizontal"
+                                        android:layout_margin="3dp"
+                                        android:background="@drawable/diary_w_bg">
+                                    <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="6dp"
+                                            android:src="@drawable/diary_r1"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--底部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:orientation="horizontal"
+                                        android:background="@drawable/diary_w_bg"
+                                        android:layout_margin="3dp"
+                                        android:layout_marginBottom="6dp">
+                                    <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="3dp"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:textSize="12sp"
+                                            android:text="旅游就是远离城市的喧嚣，摆脱日常生活......"/>
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <!--box item end-->
+
+                        <!--box item-->
+                        <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+                                                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                                      xmlns:tools="http://schemas.android.com/tools"
+                                                                      android:orientation="horizontal"
+                                                                      android:layout_width="190dp"
+                                                                      android:layout_height="250dp"
+                                                                      android:layout_margin="6dp"
+                                                                      android:background="@drawable/diary_uni_bg">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:gravity="center_vertical"
+                                    android:layout_gravity="center_vertical"
+                                    tools:ignore="MissingConstraints">
+                                <!--顶部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_marginTop="6dp"
+                                        android:gravity="center">
+                                    <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            android:text="2023.10.2"/>
+                                    <ImageView
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:src="@drawable/diary_drop"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--中部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="140dp"
+                                        android:orientation="horizontal"
+                                        android:layout_margin="3dp"
+                                        android:background="@drawable/diary_w_bg">
+                                    <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="6dp"
+                                            android:src="@drawable/diary_r1"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--底部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:orientation="horizontal"
+                                        android:background="@drawable/diary_w_bg"
+                                        android:layout_margin="3dp"
+                                        android:layout_marginBottom="6dp">
+                                    <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="3dp"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:textSize="12sp"
+                                            android:text="旅游就是远离城市的喧嚣，摆脱日常生活......"/>
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <!--box item end-->
+
+                        <!--box item-->
+                        <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+                                                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                                      xmlns:tools="http://schemas.android.com/tools"
+                                                                      android:orientation="horizontal"
+                                                                      android:layout_width="190dp"
+                                                                      android:layout_height="250dp"
+                                                                      android:layout_margin="6dp"
+                                                                      android:background="@drawable/diary_uni_bg">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:gravity="center_vertical"
+                                    android:layout_gravity="center_vertical"
+                                    tools:ignore="MissingConstraints">
+                                <!--顶部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_marginTop="6dp"
+                                        android:gravity="center">
+                                    <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            android:text="2023.10.2"/>
+                                    <ImageView
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:src="@drawable/diary_drop"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--中部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="140dp"
+                                        android:orientation="horizontal"
+                                        android:layout_margin="3dp"
+                                        android:background="@drawable/diary_w_bg">
+                                    <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="6dp"
+                                            android:src="@drawable/diary_r1"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--底部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:orientation="horizontal"
+                                        android:background="@drawable/diary_w_bg"
+                                        android:layout_margin="3dp"
+                                        android:layout_marginBottom="6dp">
+                                    <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="3dp"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:textSize="12sp"
+                                            android:text="旅游就是远离城市的喧嚣，摆脱日常生活......"/>
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <!--box item end-->
+
+                        <!--box item-->
+                        <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+                                                                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                                      xmlns:tools="http://schemas.android.com/tools"
+                                                                      android:orientation="horizontal"
+                                                                      android:layout_width="190dp"
+                                                                      android:layout_height="250dp"
+                                                                      android:layout_margin="6dp"
+                                                                      android:background="@drawable/diary_uni_bg">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:gravity="center_vertical"
+                                    android:layout_gravity="center_vertical"
+                                    tools:ignore="MissingConstraints">
+                                <!--顶部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_marginTop="6dp"
+                                        android:gravity="center">
+                                    <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            android:text="2023.10.2"/>
+                                    <ImageView
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:layout_marginLeft="10dp"
+                                            android:src="@drawable/diary_drop"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--中部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="140dp"
+                                        android:orientation="horizontal"
+                                        android:layout_margin="3dp"
+                                        android:background="@drawable/diary_w_bg">
+                                    <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="6dp"
+                                            android:src="@drawable/diary_r1"
+                                    />
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                                <!--底部一行-->
+                                <androidx.appcompat.widget.LinearLayoutCompat
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:orientation="horizontal"
+                                        android:background="@drawable/diary_w_bg"
+                                        android:layout_margin="3dp"
+                                        android:layout_marginBottom="6dp">
+                                    <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="3dp"
+                                            android:layout_weight="1"
+                                            android:gravity="center"
+                                            android:textSize="12sp"
+                                            android:text="旅游就是远离城市的喧嚣，摆脱日常生活......"/>
+                                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+                        <!--box item end-->
+
+                        <!--确保最后一行日记不被挡住-->
+                        <TextView android:layout_width="190dp"
+                                  android:layout_height="300dp"
+                                  android:textSize="30sp"
+                                  android:textStyle="bold"
+                                  android:text=" "/>
+
+                    </GridLayout>
+
+
+
+                </ScrollView>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <!--菜单-->
         <include layout="@layout/main_menu_diary"
                  android:layout_width="410dp"
                  android:layout_gravity="center"
                  android:layout_height="match_parent"/>
+
+        <!--bigbox-->
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:background="@color/cardview_dark_background"
+                      android:visibility="visible"
+                      android:gravity="center"
+                      android:id="@+id/big_box"
+        >
+            <LinearLayout
+                          android:layout_width="match_parent"
+                          android:layout_height="550dp"
+                          android:gravity="center"
+                          android:background="@drawable/diary_uni_bg">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical"
+                        tools:ignore="MissingConstraints">
+                    <!--退出按钮-->
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_margin="10dp"
+                            android:gravity="right">
+                        <ImageView
+                                android:id="@+id/bigbox_cancel"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="10dp"
+                                android:src="@drawable/diary_cancel"
+                        />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <!--顶部一行-->
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center">
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="25sp"
+                                android:textStyle="bold"
+                                android:text="2023.10.2"/>
+                        <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="15dp"
+                                android:src="@drawable/diary_drop"
+                        />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <!--中部一行-->
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="270dp"
+                            android:orientation="horizontal"
+                            android:layout_margin="3dp"
+                            android:background="@drawable/diary_w_bg">
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="6dp"
+                                android:src="@drawable/diary_r1"
+                        />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <!--底部一行-->
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="140dp"
+                            android:orientation="horizontal"
+                            android:background="@drawable/diary_w_bg"
+                            android:gravity="center"
+                            android:layout_margin="6dp">
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:textSize="14sp"
+                                android:text="旅游就是远离城市的喧嚣，摆脱日常生活。旅游就是远离城市的喧嚣，摆脱日常生活。旅游就是远离城市的喧嚣，摆脱日常生活。旅游就是远离城市的喧嚣，摆脱日常生活。旅游就是远离城市的喧嚣，摆脱日常生活。旅游就是远离城市的喧嚣，摆脱日常生活。旅游就是远离城市的喧嚣，摆脱日常生活。旅游就是远离城市的喧嚣，摆脱日常生活。旅游就是远离城市的喧嚣，摆脱日常生活。"/>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </LinearLayout>
+
+        </LinearLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
