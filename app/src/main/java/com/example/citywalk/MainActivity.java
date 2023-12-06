@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.icu.text.Transliterator;
@@ -35,6 +36,8 @@ import com.example.citywalk.database.SportDBHelper;
 import com.example.citywalk.database.UserDBHelper;
 import com.example.citywalk.enity.Position;
 import com.example.citywalk.enity.Sportinformation;
+import com.example.citywalk.util.DatabaseDiaryAccess;
+import com.example.citywalk.util.EntryDiary;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static UserDBHelper db1 = null;
     private static SportDBHelper db2 = null;
+    private static DatabaseDiaryAccess diaryAccess = null;
     private Uri save_uri;
 
     private static double sport_num = 0.00000;
@@ -104,6 +108,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         db2 = SportDBHelper.getInstance(this);
         db2.openReadLink();
         db2.openWriteLink();
+        diaryAccess = DatabaseDiaryAccess.getInstance(this);
+        diaryAccess.openRead();
+        diaryAccess.openWrite();
         List<Position> lat1= db1.queryAllPosition();
         for (Position p1 : lat1) {
             System.out.println(p1.latitude);
@@ -246,6 +253,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             String text = edit_dairy.getText().toString();
 
+            diaryAccess.insert(new EntryDiary(
+                    lat, lgt,
+                    text, ""+save_uri
+            ));
             Log.w("edit_message", "输入的内容: " +text);
             Log.w("edit_message",lat+" "+lgt);
             Log.w("edit_message", "图片: " +save_uri);

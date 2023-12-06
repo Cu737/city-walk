@@ -2,51 +2,47 @@ package com.example.citywalk.util;
 
 import androidx.annotation.Nullable;
 public class EntryDiary {
-    String position;
+    double latitude;
+    double longitude;
     String text;
     String picture_path;
 
-    public EntryDiary(String position) {
-        this(position, null, null);
-    }
-
-    public EntryDiary(String position, String text) {
-        this(position, text, null);
-    }
-
-    public EntryDiary(String position, String text, String picture_path) {
-        if (null == position) {
-            throw new IllegalArgumentException("Position can not be null.");
-        }
-        this.position = position;
+    public EntryDiary(double latitude, double longitude, String text, String picture_path) {
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.text = text;
         this.picture_path = picture_path;
     }
 
-    public void setPosition(String position) {
-        if (null == position) {
-            throw new IllegalArgumentException("Position can not be null.");
-        }
-        this.position = position;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public void setPicture_path(String picture_path) {
-        this.picture_path = picture_path;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public String getPosition() {
-        return position;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public String getText() {
         return text;
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public String getPicture_path() {
         return picture_path;
+    }
+
+    public void setPicture_path(String picture_path) {
+        this.picture_path = picture_path;
     }
 }
