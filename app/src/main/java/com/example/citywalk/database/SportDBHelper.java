@@ -5,13 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import com.example.citywalk.enity.Sportinformation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SportDBHelper extends SQLiteOpenHelper {
-    private static final String DB_NAME = "user.db";
+    private static final String DB_NAME = "userSport.db";
     private static final int DB_VERSION = 1;
     private static SportDBHelper mHelper = null;
     private SQLiteDatabase mRDB = null;
@@ -34,10 +35,12 @@ public class SportDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "create table sport"+"(" +
-                "date VARCHAR(100) PRIMARY KEY," +
+                "date TEXT PRIMARY KEY," +
                 "    sportnum double" +
                 ");";
         sqLiteDatabase.execSQL(sql);
+        System.out.println("建立运动表");
+
 
     }
 
@@ -85,17 +88,20 @@ public class SportDBHelper extends SQLiteOpenHelper {
     public void insertSportinformaiton(Sportinformation Sportinformaiton)
     {
         ContentValues values = new ContentValues();
-        values.put("date",Sportinformaiton.date);
-        values.put("sport",Sportinformaiton.sportnum);
+        //Log.w("insert_sport",Sportinformaiton.date);
+        //Log.w("insert_sport", String.valueOf(Sportinformaiton.sportnum));
 
-        wRDB.insert("Sportinformaiton",null,values);
+        values.put("date",Sportinformaiton.date);
+        values.put("sportnum",Sportinformaiton.sportnum);
+
+        wRDB.insert("sport",null,values);
     }
 
     //取所有
     public List<Sportinformation> queryAllSportinformaiton()
     {
         List<Sportinformation> l= new ArrayList<>();
-        Cursor cursor = mRDB.query("Sportinformaiton",null,null,null,null,null,null);
+        Cursor cursor = mRDB.query("sport",null,null,null,null,null,null);
         while (cursor.moveToNext())
         {
             Sportinformation p= new Sportinformation();
