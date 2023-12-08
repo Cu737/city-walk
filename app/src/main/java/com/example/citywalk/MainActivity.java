@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static Calendar calendar = Calendar.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_CityWalk);
         super.onCreate(savedInstanceState);
         day = calendar.get(Calendar.DAY_OF_MONTH);
         requestPermission();
