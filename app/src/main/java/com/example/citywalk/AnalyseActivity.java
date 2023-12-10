@@ -1,10 +1,14 @@
 package com.example.citywalk;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import com.example.citywalk.database.SportDBHelper;
+import com.example.citywalk.enity.Sportinformation;
 import com.example.citywalk.util.ButtonChoose;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.*;
@@ -16,15 +20,32 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class AnalyseActivity extends AppCompatActivity implements View.OnClickListener{
 
+    SportDBHelper sportDBHelper;
+    ArrayList<Float> sportList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analyse);
+        sportDBHelper = SportDBHelper.getInstance(this);
 
         ButtonChoose.initButton(this);
+        sportDBHelper.openWriteLink();
+
+        List<Sportinformation> l = sportDBHelper.queryAllSportinformaiton();
+        for(int i = 0; i <l.size(); i++)
+        {
+            Log.w("insert_sport", l.get(i).date);
+            Log.w("insert_sport", String.valueOf(l.get(i).sportnum));
+
+
+            sportList.add((float) l.get(i).sportnum);
+
+        }
+
 
         //隐藏标题栏
         ActionBar actionBar = getSupportActionBar();
@@ -38,12 +59,14 @@ public class AnalyseActivity extends AppCompatActivity implements View.OnClickLi
 
 //        数据部分
         ArrayList<Entry> meter_data = new ArrayList<Entry>();
-        meter_data.add(new Entry(0, 10000));
-        meter_data.add(new Entry(1, 12000));
-        meter_data.add(new Entry(2, 42000));
-        meter_data.add(new Entry(3, 20000));
-        meter_data.add(new Entry(4, 15000));
 
+        for (int i =0; i < 5;i++)
+        {
+          meter_data.add(new Entry(i,sportList.get(i+ sportList.size()-5)));
+        }
+
+
+        Log.w("insert_sport","hello");
 
 
         LineDataSet timeslineData = new LineDataSet(meter_data,"天数");
@@ -118,6 +141,13 @@ public class AnalyseActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    @Override
+    protected void onDestroy() {
+        sportDBHelper.closeLink();
+
+        super.onDestroy();
+
+    }
     @Override
     public void onClick(View view) {
         ButtonChoose.chooseButton(this,view);

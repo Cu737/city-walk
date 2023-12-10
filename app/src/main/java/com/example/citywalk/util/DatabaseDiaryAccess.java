@@ -10,12 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseDiaryAccess extends SQLiteOpenHelper {
-    private static final String DB = "CityWalk.db";
+    private static final String DB = "user.db";
     private static final String TABLE = "diary";
-    private static final int VERSION_DB = 0;
+    private static final int VERSION_DB = 1;
     private static DatabaseDiaryAccess instance = null;
 
-    private static final int POSITION = 1, TEXT = 2, PICTURE_PATH = 3;
+    private static final int LATITUDE = 1, LONGITUDE = 2, TEXT = 3, PICTURE_PATH = 4;
+    private static final double eps = 0.1;
 
     private SQLiteDatabase readLink = null, writeLink = null;
 
@@ -35,7 +36,7 @@ public class DatabaseDiaryAccess extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sql = "create table if not exists " + TABLE +"(" +
                 " id_table integer primary key autoincrement not null," +
-                " position varchar not null, text varchar, picture_path varchar" +
+                " latitude double, longitude double, text varchar, picture_path varchar" +
                 ");";
         sqLiteDatabase.execSQL(sql);
     }
@@ -46,12 +47,16 @@ public class DatabaseDiaryAccess extends SQLiteOpenHelper {
     }
 
     public SQLiteDatabase openRead() {
-        readLink = instance.getReadableDatabase();
+        if (readLink == null || !readLink.isOpen()) {
+            readLink = instance.getReadableDatabase();
+        }
         return readLink;
     }
 
     public SQLiteDatabase openWrite() {
-        writeLink = instance.getWritableDatabase();
+        if (writeLink == null || !writeLink.isOpen()) {
+            writeLink = instance.getWritableDatabase();
+        }
         return writeLink;
     }
 
@@ -71,23 +76,29 @@ public class DatabaseDiaryAccess extends SQLiteOpenHelper {
 
     public long insert(EntryDiary diary) {
         ContentValues content = new ContentValues();
-        content.put("position", diary.getPosition());
+        content.put("latitude", diary.getLatitude());
+        content.put("longitude", diary.getLongitude());
         content.put("text", diary.getText());
         content.put("picture_path", diary.getPicture_path());
         return writeLink.insert(TABLE, null, content);
     }
 
-    public List<EntryDiary> getByPosition(String position) {
+    public List<EntryDiary> getByPosition(double latitude, double longitude) {
         Cursor query = readLink.query(
                 TABLE,
-                new String[]{"position", "text", "picture_path"},
-                "position=?",
-                new String[]{position},
+                new String[]{"latitude", "longitude", "text", "picture_path"},
+                "(latitude - ?) * (latitude - ?) + (longitude - ?) * (longitude - ?) < ?",
+                new String[]{
+                        Double.toString(latitude),Double.toString(latitude),
+                        Double.toString(longitude),Double.toString(longitude),
+                        Double.toString(eps)
+                },
                 null, null, null);
         List<EntryDiary> diaryList = new ArrayList<>();
         while (query.moveToNext()) {
             diaryList.add(new EntryDiary(
-                    query.getString(POSITION),
+                    query.getDouble(LATITUDE),
+                    query.getDouble(LONGITUDE),
                     query.getString(TEXT),
                     query.getString(PICTURE_PATH)
             ));
