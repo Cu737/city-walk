@@ -9,42 +9,33 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import com.example.citywalk.util.ButtonChoose;
 
 
 
 
 public class DiaryActivity extends AppCompatActivity implements View.OnClickListener{
-
+    private LinearLayout bigbox;
+    private ImageView bigbox_cancel;
+    private LinearLayoutCompat item_1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
-
         ButtonChoose.initButton(this);
 
-//        LinearLayout item_1 = (LinearLayout)this.findViewById(R.id.item_1);
+        System.out.println("diary page begin");
+        bigbox = (LinearLayout)this.findViewById(R.id.big_box);
+        bigbox.setVisibility(View.VISIBLE);
 
-        LinearLayout bigbox = (LinearLayout)this.findViewById(R.id.big_box);
-        ImageView cancel_bn=(ImageView)this.findViewById(R.id.bigbox_cancel);
+        bigbox_cancel=(ImageView)this.findViewById(R.id.bigbox_cancel);
+        bigbox_cancel.setOnClickListener(this);
 
-
-
-//        item_1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                bigbox.setVisibility(View.VISIBLE);
-//            }
-//        });
-
-        cancel_bn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bigbox.setVisibility(View.INVISIBLE);
-            }
-        });
+        item_1 = (LinearLayoutCompat)this.findViewById(R.id.item_1);
+        item_1.setOnClickListener(this);
 
 
         //隐藏标题栏
@@ -62,6 +53,15 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         //调用关于各个按钮的监听
         ButtonChoose.chooseButton(this,view);
-
+//        System.out.println("diary:click bn"+view.getId());
+        if(view.getId() == R.id.bigbox_cancel)
+        {
+            bigbox.setVisibility(View.INVISIBLE);
+            System.out.println("diary:click bigbox_cancel");
+        }
+        else if (view.getId() == R.id.item_1) {
+            bigbox.setVisibility(View.VISIBLE);
+            System.out.println("diary:click item_1");
+        }
     }
 }
