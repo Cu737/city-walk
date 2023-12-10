@@ -24,6 +24,7 @@
                 android:layout_marginTop="6dp"
                 android:gravity="center">
             <TextView
+                    android:id="@+id/item_t"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
@@ -45,6 +46,7 @@
                 android:layout_margin="3dp"
                 android:background="@drawable/diary_w_bg">
             <ImageView
+                    android:id="@+id/item_m"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="6dp"
@@ -61,6 +63,7 @@
                 android:layout_margin="3dp"
                 android:layout_marginBottom="6dp">
             <TextView
+                    android:id="@+id/item_b"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"
@@ -78,3 +81,4 @@
 
 </androidx.appcompat.widget.LinearLayoutCompat>
         <!--box item end-->
+
