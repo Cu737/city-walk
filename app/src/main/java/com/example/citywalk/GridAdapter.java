@@ -1,5 +1,6 @@
 package com.example.citywalk;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.tencent.map.geolocation.s;
 
@@ -18,14 +20,14 @@ import java.util.SimpleTimeZone;
 //编写适配器
 public class GridAdapter extends RecyclerView.Adapter {
     //子控件设置监听
-//    public interface OnItemClickListener{
-//        void onClick(int position);
-//        void onLongClick(int position);
-//    }
-//
-//    public void setOnItemListener(OnItemClickListener mOnItemClickListener) {
-//        this.mOnItemClickListener=mOnItemClickListener;
-//    }
+    public OnItemClickListener mOnItemClickListener;////////////////////////////////////////////////
+    public interface OnItemClickListener{
+        void onClick(int position);
+    }
+
+    public void setOnItemListener(OnItemClickListener mOnItemClickListener) {
+        this.mOnItemClickListener=mOnItemClickListener;
+    }
 
 
 
@@ -46,14 +48,24 @@ public class GridAdapter extends RecyclerView.Adapter {
         return new MyViewHolder(view);
     }
 
+    @SuppressLint("RecyclerView")
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder,int position){
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position){
         MyViewHolder holder2=(MyViewHolder) holder;
         Diary diary=mData.get(position);
 
         holder2.item_m.setImageURI(Uri.fromFile(new File(diary.m)));////////////////////////////////////////此处需要检查，这样能否正常显示图片
         holder2.item_t.setText(diary.t);
         holder2.item_b.setText(diary.b);
+
+        if (mOnItemClickListener != null){
+            holder2.item_l.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mOnItemClickListener.onClick(position);
+                }
+            });
+        }
     }
 
     @Override
@@ -68,11 +80,14 @@ public class GridAdapter extends RecyclerView.Adapter {
         public TextView item_t;
         public ImageView item_m;
         public TextView item_b;
+        public LinearLayoutCompat item_l;
         public MyViewHolder(View itemView) {
             super(itemView);
             item_t = (TextView) itemView.findViewById(R.id.item_t);
             item_m = (ImageView) itemView.findViewById(R.id.item_m);
             item_b = (TextView) itemView.findViewById(R.id.item_b);
+
+            item_l=(LinearLayoutCompat) itemView.findViewById(R.id.item_l);
         }
     }
 

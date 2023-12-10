@@ -40,7 +40,7 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
 
 
     void init_diary_list(){
-        item_lst.add(new Diary("lng.111 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.111 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));////////////////////////////////////////图片地址待修改
         item_lst.add(new Diary("lng.222 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
         item_lst.add(new Diary("lng.333 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
         item_lst.add(new Diary("lng.444 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
@@ -68,6 +68,13 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
         mRecyclerView  = (RecyclerView) findViewById(R.id.recyclerview);
         mLayoutManager = new GridLayoutManager(this,2);
         mAdapter = new GridAdapter(this,item_lst);
+        mAdapter.setOnItemListener(new GridAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                System.out.println("diary you click item! pos"+position);
+                refreshBigboxContent(position);
+            }
+        });
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -94,13 +101,12 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
 
 
     private void refreshBigboxContent(int x){
-        switch (x) {
-            case 1:
-                bbtop_text.setText("lng.123 lat.123");
-                bbmid_img.setImageDrawable(getResources().getDrawable(R.drawable.diary_r1));/////图片地址待修改
-                bbbot_text.setText("this is diary_content only for item_1");
-                break;
-        }
+        Diary diary=item_lst.get(x);
+        bbtop_text.setText(diary.t);
+        // diary.m
+        bbmid_img.setImageDrawable(getResources().getDrawable(R.drawable.diary_r1));//////////////////图片地址待修改
+        bbbot_text.setText(diary.b);
+        bigbox.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -114,7 +120,7 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
             System.out.println("diary:click bigbox_cancel");
         }
 //        else if (view.getId() == R.id.item_1) {
-//            refreshBigboxContent(1);
+//            refreshBigboxContent(0);
 //            bigbox.setVisibility(View.VISIBLE);
 //            System.out.println("diary:click item_1");
 //        }

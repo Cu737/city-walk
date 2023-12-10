@@ -10,6 +10,7 @@
                                               android:background="@drawable/diary_uni_bg">
 
     <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/item_l"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
