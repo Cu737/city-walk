@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--box item-->
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+                                              xmlns:app="http://schemas.android.com/apk/res-auto"
+                                              xmlns:tools="http://schemas.android.com/tools"
+                                              android:orientation="horizontal"
+                                              android:layout_width="190dp"
+                                              android:layout_height="250dp"
+                                              android:layout_margin="6dp"
+                                              android:background="@drawable/diary_uni_bg">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/item_l"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            tools:ignore="MissingConstraints">
+        <!--顶部一行-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp"
+                android:gravity="center">
+            <TextView
+                    android:id="@+id/item_t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="2023.10.2"/>
+            <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/diary_drop"
+            />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!--中部一行-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:orientation="horizontal"
+                android:layout_margin="3dp"
+                android:background="@drawable/diary_w_bg">
+            <ImageView
+                    android:id="@+id/item_m"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:src="@drawable/diary_r1"
+            />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!--底部一行-->
+        <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:background="@drawable/diary_w_bg"
+                android:layout_margin="3dp"
+                android:layout_marginBottom="6dp">
+            <TextView
+                    android:id="@+id/item_b"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:text="旅游就是远离城市的喧嚣，摆脱日常生活......"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+        <!--box item end-->
+
