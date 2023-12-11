@@ -106,5 +106,23 @@ public class DatabaseDiaryAccess extends SQLiteOpenHelper {
         query.close();
         return diaryList;
     }
+    public List<EntryDiary> getAll() {
+        Cursor query = readLink.query(
+                TABLE,
+                new String[]{"latitude", "longitude", "text", "picture_path"},
+                null, null, null, null, null
+        );
+        List<EntryDiary> diaryList = new ArrayList<>();
+        while (query.moveToNext()) {
+            diaryList.add(new EntryDiary(
+                    query.getDouble(LATITUDE),
+                    query.getDouble(LONGITUDE),
+                    query.getString(TEXT),
+                    query.getString(PICTURE_PATH)
+            ));
+        }
+        query.close();
+        return diaryList;
+    }
 
 }
