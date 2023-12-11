@@ -1,6 +1,8 @@
 package com.example.citywalk;
 
 
+import android.annotation.SuppressLint;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +19,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.citywalk.util.ButtonChoose;
+import com.example.citywalk.util.DatabaseDiaryAccess;
+import com.example.citywalk.util.EntryDiary;
 
 import java.util.*;
 
@@ -40,6 +44,16 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
 
 
     void init_diary_list(){
+        DatabaseDiaryAccess diaryAccess = DatabaseDiaryAccess.getInstance(this);
+        List<EntryDiary> diaries = diaryAccess.getAll();
+        for (EntryDiary entryDiary : diaries) {
+            item_lst.add(new Diary(
+                    String.format("lng.%f lat.%f", entryDiary.getLongitude(), entryDiary.getLatitude()),
+                    entryDiary.getPicture_path(),entryDiary.getText()
+            ));
+        }
+        diaryAccess.close();
+        /*
         item_lst.add(new Diary("lng.111 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));////////////////////////////////////////图片地址待修改
         item_lst.add(new Diary("lng.222 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
         item_lst.add(new Diary("lng.333 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
@@ -48,6 +62,8 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
         item_lst.add(new Diary("lng.666 lat.123","D:\\Git_repository\\CityWalk\\app\\src\\main\\res\\drawable\\diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
         item_lst.add(new Diary("lng.777 lat.123","D:\\Git_repository\\CityWalk\\app\\src\\main\\res\\drawable\\diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
         item_lst.add(new Diary("lng.888 lat.123","D:\\Git_repository\\CityWalk\\app\\src\\main\\res\\drawable\\diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
+
+         */
     }
 
     @Override
