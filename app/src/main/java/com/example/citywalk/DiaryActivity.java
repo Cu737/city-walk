@@ -1,6 +1,8 @@
 package com.example.citywalk;
 
 
+import android.annotation.SuppressLint;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
@@ -42,19 +44,35 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
     private ImageView bigbox_cancel;
 
 
+    @SuppressLint("DefaultLocale")
     void init_diary_list(){
-//        access= DatabaseDiaryAccess.getInstance(this);
-//        access.OpenRead();
-//        List<EntryDiary> listDiary=access.getByPosition(lat,lgt);
-//        access.close();
-        item_lst.add(new Diary("lng.111 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));////////////////////////////////////////图片地址待修改
-        item_lst.add(new Diary("lng.222 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
-        item_lst.add(new Diary("lng.333 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
-        item_lst.add(new Diary("lng.444 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
-        item_lst.add(new Diary("lng.555 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
-        item_lst.add(new Diary("lng.666 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
-        item_lst.add(new Diary("lng.777 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
-        item_lst.add(new Diary("lng.888 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
+        DatabaseDiaryAccess diaryAccess = DatabaseDiaryAccess.getInstance(this);
+        diaryAccess.openRead();
+        Log.w("hello","start");
+        List<EntryDiary> diaries = diaryAccess.getAll();
+        Log.w("hello","start1");
+        for (EntryDiary entryDiary : diaries) {
+
+            Log.w("hello",String.format("lng.%.1f lat.%.1f", entryDiary.getLongitude(), entryDiary.getLatitude()));
+            Log.w("hello",entryDiary.getPicture_path()+entryDiary.getText());
+            item_lst.add(new Diary(
+                    String.format("lng.%.1f lat.%.1f", entryDiary.getLongitude(), entryDiary.getLatitude()),
+                    entryDiary.getPicture_path(),entryDiary.getText()
+            ));
+        }
+        diaryAccess.close();
+
+        /*
+        item_lst.add(new Diary("lng.111 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));////////////////////////////////////////图片地址待修改
+        item_lst.add(new Diary("lng.222 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.333 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.444 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.555 lat.123","D:\\Git_repository\\CityWalk\\app\\src\\main\\res\\drawable\\diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.666 lat.123","D:\\Git_repository\\CityWalk\\app\\src\\main\\res\\drawable\\diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.777 lat.123","D:\\Git_repository\\CityWalk\\app\\src\\main\\res\\drawable\\diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.888 lat.123","D:\\Git_repository\\CityWalk\\app\\src\\main\\res\\drawable\\diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
+
+         */
     }
 
     @Override
@@ -112,8 +130,7 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
         bbtop_text.setText(diary.t);
         // diary.m
         Uri uri = Uri.parse(diary.m);
-        bbmid_img.setImageURI(uri);///////////////////////////////////此处需要检查图片显示
-        //bbmid_img.setImageDrawable(getResources().getDrawable(R.drawable.diary_r1));
+        bbmid_img.setImageURI(uri);
         bbbot_text.setText(diary.b);
         bigbox.setVisibility(View.VISIBLE);
     }
