@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.citywalk.util.ButtonChoose;
+import com.example.citywalk.util.DatabaseDiaryAccess;
+import com.example.citywalk.util.EntryDiary;
 
 import java.util.*;
 
@@ -41,6 +43,10 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
 
 
     void init_diary_list(){
+//        access= DatabaseDiaryAccess.getInstance(this);
+//        access.OpenRead();
+//        List<EntryDiary> listDiary=access.getByPosition(lat,lgt);
+//        access.close();
         item_lst.add(new Diary("lng.111 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));////////////////////////////////////////图片地址待修改
         item_lst.add(new Diary("lng.222 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
         item_lst.add(new Diary("lng.333 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
