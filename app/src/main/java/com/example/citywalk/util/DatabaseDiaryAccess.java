@@ -5,12 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import com.example.citywalk.enity.Sportinformation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseDiaryAccess extends SQLiteOpenHelper {
-    private static final String DB = "user.db";
+    private static final String DB = "useDiary.db";
     private static final String TABLE = "diary";
     private static final int VERSION_DB = 1;
     private static DatabaseDiaryAccess instance = null;
@@ -107,22 +109,17 @@ public class DatabaseDiaryAccess extends SQLiteOpenHelper {
         return diaryList;
     }
     public List<EntryDiary> getAll() {
-        Cursor query = readLink.query(
-                TABLE,
-                new String[]{"latitude", "longitude", "text", "picture_path"},
-                null, null, null, null, null
-        );
-        List<EntryDiary> diaryList = new ArrayList<>();
-        while (query.moveToNext()) {
-            diaryList.add(new EntryDiary(
-                    query.getDouble(LATITUDE),
-                    query.getDouble(LONGITUDE),
-                    query.getString(TEXT),
-                    query.getString(PICTURE_PATH)
-            ));
+        List<EntryDiary> l= new ArrayList<>();
+        Log.w("hello","start2");
+        Cursor cursor = readLink.query(TABLE,null,null,null,null,null,null);
+        while (cursor.moveToNext())
+        {
+           EntryDiary et = new EntryDiary(cursor.getDouble(LATITUDE),cursor.getDouble(LONGITUDE),cursor.getString(TEXT),cursor.getString(PICTURE_PATH));
+            l.add(et);
         }
-        query.close();
-        return diaryList;
+        Log.w("hello","start3");
+        return l;
+
     }
 
 }

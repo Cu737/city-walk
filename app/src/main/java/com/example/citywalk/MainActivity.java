@@ -368,7 +368,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                     // 启动intent，开始裁剪
+                    ImageButton imageView = (ImageButton) findViewById(R.id.add_image);
+                    imageView.setImageURI(imageUri);
                     startActivityForResult(intent, CROP_PHOTO_TAKE);
+
                 }
                 break;
             case LOCAL_CROP:// 系统图库

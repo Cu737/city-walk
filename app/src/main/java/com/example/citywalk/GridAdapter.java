@@ -54,7 +54,8 @@ public class GridAdapter extends RecyclerView.Adapter {
         MyViewHolder holder2=(MyViewHolder) holder;
         Diary diary=mData.get(position);
 
-        holder2.item_m.setImageURI(Uri.fromFile(new File(diary.m)));////////////////////////////////////////此处需要检查，这样能否正常显示图片
+        Uri uri = Uri.parse(diary.m);
+        holder2.item_m.setImageURI(uri);////////////////////////////////////////此处需要检查，这样能否正常显示图片
         holder2.item_t.setText(diary.t);
         holder2.item_b.setText(diary.b);
 
