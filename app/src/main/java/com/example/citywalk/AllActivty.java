@@ -47,6 +47,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -73,86 +74,23 @@ public class AllActivty extends AppCompatActivity implements View.OnClickListene
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         BufferedReader br = null;
-        //添加轨迹数据到集合
-        List<TrailLatLng> startLats = new ArrayList<>();
-        try {
-            //trailDataAll.dat文件格式（39.792151	116.397607	14	,）
-            System.out.println("执行到这里1");
-            br = new BufferedReader(new InputStreamReader(getResources().getAssets().open("trailDataAll.dat")));
-            String line = null;
-            System.out.println("执行到这里");
-            while ((line = br.readLine()) != null) {
-                System.out.println(line);
-                String[] oneDot = line.split(",");
-                //轨迹图单点数据类型, 包含经纬度 + 时间戳
-                TimeLatLng[] timeLatLngs = new TimeLatLng[oneDot.length];
-                int i = 0;
-                for (String timeLatLng : oneDot) {
-                    String[] values = timeLatLng.split("\t");
-                    LatLng latlng = new LatLng((Double.parseDouble(values[0])), (Double.parseDouble(values[1])));
-                    int timeStamp = Integer.parseInt(values[2]);
-                    timeLatLngs[i++] = new TimeLatLng(latlng, timeStamp);
-                }
-                //TrailLatLng轨迹图数据类型, 由TimeLatLng数组组成，输入数据需保证按时间戳增序
-                TrailLatLng tmp = new TrailLatLng(timeLatLngs);
-                startLats.add(tmp);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //配置轨迹线数据
-        System.out.println("执行到这里2");
-        trailOverlayProvider = new TrailOverlayProvider().data(startLats);
-        tencentMap.addVectorOverlay(trailOverlayProvider);
         db1 = UserDBHelper.getInstance(this);
         db1.openReadLink();
         db1.openWriteLink();
+        System.out.println("数据库插入成功");
         List<Position> lat1= db1.queryAllPosition();
+        System.out.println(lat1.size());
+        int i = 0;
         for (Position p1 : lat1) {
             System.out.println(p1.latitude);
             System.out.println(p1.longitude);
-            LatLng latLngs1 = new LatLng(p1.latitude,p1.latitude);
-            MarkerOptions markerOptions1 = new MarkerOptions()
+            LatLng latLngs1 = new LatLng(p1.latitude,p1.longitude);
+            MarkerOptions markerOptions = new MarkerOptions()
                     .position(latLngs1)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-            Marker marker1 = tencentMap.addMarker(markerOptions1);
+            Marker marker1 = tencentMap.addMarker(markerOptions);
+            System.out.println(i);
         }
-//        LatLng latLng1 = new LatLng(39.984104, 116.307503);
-//        LatLng latLng2 = new LatLng(39.984198, 116.307296);
-//        LatLng latLng3 = new LatLng(39.984221, 116.307296);
-////        Bitmap bitmap = Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888);
-////        Canvas canvas = new Canvas(bitmap);
-////        Paint paint = new Paint();
-////        paint.setColor(Color.BLUE);
-////        canvas.drawCircle(5, 5, 50, paint);
-//// 创建并添加标记
-////        MarkerOptions markerOptions1 = new MarkerOptions()
-////                .position(latLng1)
-////                .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
-////        MarkerOptions markerOptions2 = new MarkerOptions()
-////                .position(latLng2)
-////                .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
-////        MarkerOptions markerOptions3 = new MarkerOptions()
-////                .position(latLng3)
-////                .icon(BitmapDescriptorFactory.fromBitmap(bitmap));
-//        MarkerOptions markerOptions1 = new MarkerOptions()
-//                .position(latLng1)
-//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-//        MarkerOptions markerOptions2 = new MarkerOptions()
-//                .position(latLng2)
-//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-//        MarkerOptions markerOptions3 = new MarkerOptions()
-//                .position(latLng3)
-//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-//        Marker marker1 = tencentMap.addMarker(markerOptions1);
-//        Marker marker2 = tencentMap.addMarker(markerOptions2);
-//        Marker marker3 = tencentMap.addMarker(markerOptions3);
-        int[] colors = {Color.argb((int) (255), 0xff, 0xca, 0x1f), Color.argb((int) (255 * 0.9), 0xcc, 0x18, 0x5d)};
-        //设置轨迹线渐变颜色
-        trailOverlayProvider.gradient(colors);
-        trailOverlayProvider.displayLevel(OverlayLevel.OverlayLevelAboveLabels);
-
-
     }
 
     @Override
