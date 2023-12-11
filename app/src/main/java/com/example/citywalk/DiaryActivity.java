@@ -2,6 +2,7 @@ package com.example.citywalk;
 
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -40,14 +41,14 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
 
 
     void init_diary_list(){
-        item_lst.add(new Diary("lng.111 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));////////////////////////////////////////图片地址待修改
-        item_lst.add(new Diary("lng.222 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
-        item_lst.add(new Diary("lng.333 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
-        item_lst.add(new Diary("lng.444 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
-        item_lst.add(new Diary("lng.555 lat.123","D:\\Git_repository\\CityWalk\\app\\src\\main\\res\\drawable\\diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
-        item_lst.add(new Diary("lng.666 lat.123","D:\\Git_repository\\CityWalk\\app\\src\\main\\res\\drawable\\diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
-        item_lst.add(new Diary("lng.777 lat.123","D:\\Git_repository\\CityWalk\\app\\src\\main\\res\\drawable\\diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
-        item_lst.add(new Diary("lng.888 lat.123","D:\\Git_repository\\CityWalk\\app\\src\\main\\res\\drawable\\diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.111 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));////////////////////////////////////////图片地址待修改
+        item_lst.add(new Diary("lng.222 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.333 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.444 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.555 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.666 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.777 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
+        item_lst.add(new Diary("lng.888 lat.123","uri_string_xxxxx","this is diary_contentthis is diary_contentthis is diary_content"));
     }
 
     @Override
@@ -104,7 +105,9 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
         Diary diary=item_lst.get(x);
         bbtop_text.setText(diary.t);
         // diary.m
-        bbmid_img.setImageDrawable(getResources().getDrawable(R.drawable.diary_r1));//////////////////图片地址待修改
+        Uri uri = Uri.parse(diary.m);
+        bbmid_img.setImageURI(uri);///////////////////////////////////此处需要检查图片显示
+        //bbmid_img.setImageDrawable(getResources().getDrawable(R.drawable.diary_r1));
         bbbot_text.setText(diary.b);
         bigbox.setVisibility(View.VISIBLE);
     }
