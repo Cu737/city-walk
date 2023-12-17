@@ -89,7 +89,13 @@ public class AllActivty extends AppCompatActivity implements View.OnClickListene
                     .position(latLngs1)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
             Marker marker1 = tencentMap.addMarker(markerOptions);
-            System.out.println(i);
+            i++;
+            if(i == lat1.size())
+            {
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLngs1);
+                tencentMap.moveCamera(cameraUpdate);
+                System.out.println("成功转移视角");
+            }
         }
     }
 

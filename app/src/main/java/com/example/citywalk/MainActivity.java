@@ -484,10 +484,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(lgt);
             if(old_lgt == -1.0000)
             {
-
                 old_lgt = lgt;
                 old_lat = lat;
                 latLngs.add(new LatLng(lat,lgt));
+                db1.insertPosition(new Position(lat,lgt));
             }
             Location location = new Location(tencentLocation.getProvider());
             //设置经纬度
