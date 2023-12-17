@@ -4,6 +4,7 @@ package com.example.citywalk;
 import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,16 +44,24 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
     private ImageView bigbox_cancel;
 
 
+    @SuppressLint("DefaultLocale")
     void init_diary_list(){
         DatabaseDiaryAccess diaryAccess = DatabaseDiaryAccess.getInstance(this);
+        diaryAccess.openRead();
+        Log.w("hello","start");
         List<EntryDiary> diaries = diaryAccess.getAll();
+        Log.w("hello","start1");
         for (EntryDiary entryDiary : diaries) {
+
+            Log.w("hello",String.format("lng.%.1f lat.%.1f", entryDiary.getLongitude(), entryDiary.getLatitude()));
+            Log.w("hello",entryDiary.getPicture_path()+entryDiary.getText());
             item_lst.add(new Diary(
-                    String.format("lng.%f lat.%f", entryDiary.getLongitude(), entryDiary.getLatitude()),
+                    String.format("lng.%.1f lat.%.1f", entryDiary.getLongitude(), entryDiary.getLatitude()),
                     entryDiary.getPicture_path(),entryDiary.getText()
             ));
         }
         diaryAccess.close();
+
         /*
         item_lst.add(new Diary("lng.111 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));////////////////////////////////////////图片地址待修改
         item_lst.add(new Diary("lng.222 lat.123","drawable/diary_r1.webp","this is diary_contentthis is diary_contentthis is diary_content"));
@@ -120,7 +129,8 @@ public class DiaryActivity extends AppCompatActivity implements View.OnClickList
         Diary diary=item_lst.get(x);
         bbtop_text.setText(diary.t);
         // diary.m
-        bbmid_img.setImageDrawable(getResources().getDrawable(R.drawable.diary_r1));//////////////////图片地址待修改
+        Uri uri = Uri.parse(diary.m);
+        bbmid_img.setImageURI(uri);
         bbbot_text.setText(diary.b);
         bigbox.setVisibility(View.VISIBLE);
     }
